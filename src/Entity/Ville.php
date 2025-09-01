@@ -50,4 +50,16 @@ class Ville
 
         return $this;
     }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): void
+    {
+        $this->lieu = $lieu;
+    }
+
+
 }

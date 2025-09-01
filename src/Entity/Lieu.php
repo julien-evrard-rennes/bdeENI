@@ -83,4 +83,26 @@ class Lieu
 
         return $this;
     }
+
+    public function getVille(): ?Ville
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Ville $ville): void
+    {
+        $this->ville = $ville;
+    }
+
+    public function getSortie(): ?Sortie
+    {
+        return $this->sortie;
+    }
+
+    public function setSortie(?Sortie $sortie): void
+    {
+        $this->sortie = $sortie;
+    }
+
+
 }

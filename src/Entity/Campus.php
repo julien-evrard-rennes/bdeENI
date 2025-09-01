@@ -38,4 +38,27 @@ class Campus
 
         return $this;
     }
+
+    public function getSortie(): ?Sortie
+    {
+        return $this->sortie;
+    }
+
+    public function setSortie(?Sortie $sortie): void
+    {
+        $this->sortie = $sortie;
+    }
+
+    public function getParticipant(): ?Participant
+    {
+        return $this->participant;
+    }
+
+    public function setParticipant(?Participant $participant): void
+    {
+        $this->participant = $participant;
+    }
+
+
+
 }

@@ -131,4 +131,36 @@ class Participant
 
         return $this;
     }
+
+    public function getSortie(): ?Sortie
+    {
+        return $this->sortie;
+    }
+
+    public function setSortie(?Sortie $sortie): void
+    {
+        $this->sortie = $sortie;
+    }
+
+    public function getParticipants(): ?Participant
+    {
+        return $this->participants;
+    }
+
+    public function setParticipants(?Participant $participants): void
+    {
+        $this->participants = $participants;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): void
+    {
+        $this->campus = $campus;
+    }
+
+
 }

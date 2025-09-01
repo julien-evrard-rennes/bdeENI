@@ -140,4 +140,46 @@ class Sortie
 
         return $this;
     }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): void
+    {
+        $this->lieu = $lieu;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): void
+    {
+        $this->campus = $campus;
+    }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): void
+    {
+        $this->organisateur = $organisateur;
+    }
+
+    public function getParticipants(): ?Participant
+    {
+        return $this->participants;
+    }
+
+    public function setParticipants(?Participant $participants): void
+    {
+        $this->participants = $participants;
+    }
+
+
 }
