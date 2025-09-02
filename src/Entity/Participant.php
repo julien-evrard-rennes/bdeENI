@@ -34,7 +34,7 @@ class Participant
     #[ORM\Column]
     private ?bool $actif = null;
 
-    #[ORM\OneToMany(mappedBy: "organisateur", targetEntity: Sortie::class)]
+    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: "organisateur")]
     private ?Sortie $sortie = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: "participants")]
@@ -161,6 +161,4 @@ class Participant
     {
         $this->campus = $campus;
     }
-
-
 }

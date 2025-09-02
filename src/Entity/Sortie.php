@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\SortieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
 {
@@ -56,6 +55,10 @@ class Sortie
     {
         return $this->etat;
     }
+    public function setEtat(?Etat $etat): void
+    {
+        $this->etat = $etat;
+    }
 
     public function getNom(): ?string
     {
@@ -86,12 +89,12 @@ class Sortie
         return $this->durée;
     }
 
-    public function setDurée(?int $durée): static
+    public function setDurée(?int $durée): void
     {
         $this->durée = $durée;
 
-        return $this;
     }
+
 
     public function getDateLimiteInscription(): ?\DateTime
     {
@@ -128,19 +131,6 @@ class Sortie
 
         return $this;
     }
-
-    public function getétat(): ?string
-    {
-        return $this->état;
-    }
-
-    public function setétat(string $état): static
-    {
-        $this->état = $état;
-
-        return $this;
-    }
-
     public function getLieu(): ?Lieu
     {
         return $this->lieu;
@@ -180,6 +170,4 @@ class Sortie
     {
         $this->participants = $participants;
     }
-
-
 }
