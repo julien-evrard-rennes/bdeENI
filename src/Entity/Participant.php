@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
@@ -35,13 +37,48 @@ class Participant
     private ?bool $actif = null;
 
     #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: "organisateur")]
-    private ?Sortie $sortie = null;
+    private ?Collection $sortie;
 
-    #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: "participants")]
-    private ?self $participants = null;
+    public function getSortieOrga(): Collection
+    {
+        return $this->sortie;
+    }
+    public function addSortieOrga(Sortie $sortie): self
+    {
+        if (!$this->sortie->contains($sortie)) {
+            $this->sortie[] = $sortie;
+            $sortie->setOrganisateur($this);
+        }
+        return $this;
+    }
 
     #[ORM\ManyToOne(inversedBy: "campus")]
     private ?Campus $campus = null;
+
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: "participants")]
+    #[ORM\JoinTable(name: "sortie_participant")]
+    private Collection $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+        $this->sortie = new ArrayCollection();
+
+    }
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+    public function addSortie(Sortie $sortie): self
+    {
+        echo 'Entrée dans addSortie';
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setParticipants($this);
+        }
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

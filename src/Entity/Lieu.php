@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LieuRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
@@ -29,7 +31,25 @@ class Lieu
     private ?Ville $ville = null;
 
     #[ORM\OneToMany(mappedBy: "lieu", targetEntity: Sortie::class)]
-    private ?Sortie $sortie = null;
+    private ?Collection $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+    }
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+    public function addSortie(Sortie $sortie): self
+    {
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setLieu($this);
+        }
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

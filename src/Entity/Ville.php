@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VilleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
@@ -20,7 +22,25 @@ class Ville
     private ?string $codePostal = null;
 
     #[ORM\OneToMany(mappedBy: "ville", targetEntity: Lieu::class)]
-    private ?Lieu $lieu = null;
+    private ?Collection $lieu;
+
+    public function __construct()
+    {
+        $this->lieu = new ArrayCollection();
+    }
+    public function getLieux(): Collection
+    {
+        return $this->lieu;
+    }
+    public function addLieu(Lieu $lieu): self
+    {
+        if (!$this->lieu->contains($lieu)) {
+            $this->lieu[] = $lieu;
+            $lieu->setVille($this);
+        }
+        return $this;
+    }
+
 
     public function getId(): ?int
     {
@@ -50,16 +70,4 @@ class Ville
 
         return $this;
     }
-
-    public function getLieu(): ?Lieu
-    {
-        return $this->lieu;
-    }
-
-    public function setLieu(?Lieu $lieu): void
-    {
-        $this->lieu = $lieu;
-    }
-
-
 }
