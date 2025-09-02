@@ -137,4 +137,27 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
     }
+    private function addListeParticipants(ObjectManager $manager): void
+    {
+        $sorties = $manager->getRepository(Sortie::class)->findAll();
+        $participants = $manager->getRepository(Participant::class)->findAll();
+
+        $faker = Factory::create('fr_FR');
+
+        foreach ($sorties as $sortie) { // Correction de $Sorties en $sorties
+            $nbParticipants = $faker->numberBetween(1, $sortie->getNbInscriptionsMax());
+            $selectedParticipants = $faker->randomElements($participants, $nbParticipants);
+
+            foreach ($selectedParticipants as $participant) {
+                $sortie->addParticipant($participant);
+            }
+            $manager->persist($sortie);
+        }
+
+        //
+        //https://www.youtube.com/watch?v=rUr4PrN-fqo
+        //
+
+        $manager->flush();
+    }
 }

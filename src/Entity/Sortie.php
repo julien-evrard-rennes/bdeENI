@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
@@ -44,7 +46,33 @@ class Sortie
     private ?Participant $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: "sorties")]
-    private ?Participant $participants = null;
+    #[ORM\JoinTable(name: "sortie_participant")]
+    private Collection $participants;
+
+    /**
+     * @var Collection<int, Etat>
+     */
+    #[ORM\OneToMany(targetEntity: Etat::class, mappedBy: 'sortie')]
+    private Collection $etats;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+        $this->etats = new ArrayCollection();
+    }
+
+    public function getParticipants(): string
+    {
+        return $this->participants;
+    }
+    public function setParticipants(Participant $participant): self {
+            echo 'Entrée dans setParticipants';
+        if(!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->addSortie($this);
+        }
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -161,13 +189,34 @@ class Sortie
         $this->organisateur = $organisateur;
     }
 
-    public function getParticipants(): ?Participant
+    /**
+     * @return Collection<int, Etat>
+     */
+    public function getEtats(): Collection
     {
-        return $this->participants;
+        return $this->etats;
     }
 
-    public function setParticipants(?Participant $participants): void
+    public function addEtat(Etat $etat): static
     {
-        $this->participants = $participants;
+        if (!$this->etats->contains($etat)) {
+            $this->etats->add($etat);
+            $etat->setSortie($this);
+        }
+
+        return $this;
     }
+
+    public function removeEtat(Etat $etat): static
+    {
+        if ($this->etats->removeElement($etat)) {
+            // set the owning side to null (unless already changed)
+            if ($etat->getSortie() === $this) {
+                $etat->setSortie(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

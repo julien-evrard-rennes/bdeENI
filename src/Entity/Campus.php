@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CampusRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CampusRepository::class)]
@@ -20,7 +22,24 @@ class Campus
     private ?Sortie $sortie = null;
 
     #[ORM\OneToMany(mappedBy: "campus", targetEntity: Participant::class)]
-    private ?Participant $participant = null;
+    private ?Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+    public function addParticipant(Participant $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->setCampus($this);
+        }
+        return $this;
+    }
 
     public function getId(): ?int
     {
