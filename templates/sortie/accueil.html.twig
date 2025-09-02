@@ -12,7 +12,12 @@
 
     <div class="formulaire">
 
-        <p>rechercher une sortie pour aujourd'hui</p>
+        <h2>Filtrer les sorties :</h2>
+
+            {{ form_start(sortieForm) }}
+            {{ form_widget(sortieForm) }}
+            <button>Rechercher !</button>
+            {{ form_end(sortieForm) }}
 
     </div>
 
