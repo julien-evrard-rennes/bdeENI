@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+
+/* nav ul { */
+/*   display: flex; */
+/*   justify-content: space-between; */
+/* } */
+header li {
+	list-style: none;
+	display: inline-block;
+	padding: 0 30px;
+	font-size: 1.2em;
+	gap: 10px;
+}
+
+header img {
+	width: 25px;
+	margin: 0 10px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica;
+}
+
+/* Header */
+header {
+	display: flex;
+	align-items: center;
+	background-color: antiquewhite;
+	padding: 20px 50px;
+	box-shadow: 0 1px 8px #ddd;
+}
+
+#nav {
+	flex-direction: row-reverse;
+	margin-right: auto;
+	font-size: 1.1em;
+}
+
+header li {
+	list-style: none;
+	display: inline-block;
+	padding: 0 20px;
+}
+
+header a {
+	text-decoration: none;
+	color: #191818;
+	transition: all 0.3s ease 0s;
+
+}
+
+header a:hover {
+	color: rgb(2, 105, 156);
+}
+
+main {
+	margin-top: 15px;
+	margin-left: 15px;
+	height:100vh;
+}
+
+main h1 {
+	display: flex;
+	margin: 10px;
+	justify-content: space-around;
+}
+
+main div.infos{
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.wish {
+	border-color:black;
+	border-radius:10px;
+	margin:15px;
+	padding: 15px;
+	background-color: #fafaf2;
+
+}
+
+.center-main {
+	display: flex;
+	width: 100%;
+	height: 400px;
+	margin: auto;
+}
+
+.center-section {
+	margin: auto;
+	text-align: center;
+}
+
+#appel	{
+	background-color: #6ecc6e;
+}
+
+/* 	FORMS */
+
+.form-error{
+	color:red;
+}
+
+.form-label{
+	color: #191818;
+	margin:10px 0px;
+	padding:7px 0px;
+	font-size: large;
+}
+
+
+/* 
+Module 04 - TP 6
+I18N*/
+#nav-title div>a>img {width: 25px;}
+
+/* FOOTER */
+
+footer {
+	display: flex;
+	align-items: center;
+	background-color: #c9b7a0;
+	padding: 10px 10px;
+
+}

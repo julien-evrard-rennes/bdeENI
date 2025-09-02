@@ -1,0 +1,23 @@
+{%  extends 'base.html.twig' %}
+
+{%  block body %}
+
+    <h1>RECHERCHER UNE SORTIE </h1>
+    <div class="infos">
+        Date du jour : {{ "now" | date("d/m/Y") }}
+        {%  if app.user %}
+            <b>Salut {{ app.user.userIdentifier }} </b>
+        {%  endif %}
+    </div>
+
+    <div class="formulaire">
+
+        <p>rechercher une sortie pour aujourd'hui</p>
+
+    </div>
+
+{%  endblock %}
+{% block title %}
+
+{% endblock %}
+
