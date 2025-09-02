@@ -55,8 +55,7 @@ class Participant
     #[ORM\ManyToOne(inversedBy: "campus")]
     private ?Campus $campus = null;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: "participants")]
-    #[ORM\JoinTable(name: "sortie_participant")]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: "participants")]
     private Collection $sorties;
 
     public function __construct()
@@ -179,7 +178,7 @@ class Participant
         $this->sortie = $sortie;
     }
 
-    public function getParticipants(): ?Participant
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }

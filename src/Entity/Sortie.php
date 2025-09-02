@@ -61,7 +61,7 @@ class Sortie
         $this->etats = new ArrayCollection();
     }
 
-    public function getParticipants(): string
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }
@@ -73,6 +73,45 @@ class Sortie
         }
         return $this;
     }
+    public function __toString(): string
+    {
+        echo 'entrée dans toString';
+        $nom = $this->nom ?? 'Sortie';
+        $date = $this->dateHeureDebut?->format('d/m/Y H:i') ?? 'date inconnue';
+        $lieu = $this->lieu?->getNom() ?? 'lieu inconnu';
+        $campus = $this->campus?->getNom() ?? 'campus inconnu';
+        $participantsLabel = 'Aucun participant';
+        if (isset($this->participants) && $this->participants instanceof \Doctrine\Common\Collections\Collection) {
+            $count = $this->participants->count();
+            if ($count > 0) {
+                $names = [];
+                foreach ($this->participants as $p) {
+                    if (is_object($p)) {
+                        if (method_exists($p, '__toString')) {
+                            $names[] = (string) $p;
+                            continue;
+                        }
+                        $prenom = method_exists($p, 'getPrenom') ? $p->getPrenom() : null;
+                        $nomP = method_exists($p, 'getNom') ? $p->getNom() : null;
+                        $display = trim(implode(' ', array_filter([$prenom, $nomP], static fn($v) => !empty($v))));
+                        if ($display === '') {
+                            $display = sprintf('#%s', method_exists($p, 'getId') ? (string) $p->getId() : '?');
+                        }
+                        $names[] = $display;
+                    }
+                }
+                $participantsLabel = sprintf('Participants (%d): %s', $count, implode(', ', $names));
+            }
+        }
+
+
+
+        $segments = array_filter([$nom, $date, $lieu, $campus,$participantsLabel]);
+        return implode(' | ', $segments);
+
+    }
+
+
 
     public function getId(): ?int
     {

@@ -149,15 +149,10 @@ class AppFixtures extends Fixture
             $selectedParticipants = $faker->randomElements($participants, $nbParticipants);
 
             foreach ($selectedParticipants as $participant) {
-                $sortie->addParticipant($participant);
+                $sortie->setParticipants($participant);
             }
             $manager->persist($sortie);
         }
-
-        //
-        //https://www.youtube.com/watch?v=rUr4PrN-fqo
-        //
-
         $manager->flush();
     }
 }
