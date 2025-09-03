@@ -12,13 +12,15 @@ use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class AppFixtures extends Fixture
 {
+    public function __construct(private UserPasswordHasherInterface $passwordHasher) {}
     public function load(ObjectManager $manager): void
     {
         $this->addCampus($manager);
-        $this->addRoles($manager);
         $this->addEtats($manager);
         $this->addParticipants($manager);
         $this->addVilles($manager);
@@ -38,18 +40,6 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
     }
-    private function addRoles(ObjectManager $manager): void
-    {
-        $roles = ['ROLE_ADMIN','ROLE_USER'];
-
-        foreach ($roles as $rol) {
-            $role = new Roles();
-            $role->setLibelle($rol);
-
-            $manager->persist($role);
-        }
-        $manager->flush();
-    }
     private function addEtats(ObjectManager $manager): void
     {
      $Etats = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée'];
@@ -65,7 +55,6 @@ class AppFixtures extends Fixture
     private function addParticipants(ObjectManager $manager): void
     {
         $campus = $manager->getRepository(Campus::class)->findAll();
-        $roles = $manager->getRepository(Roles::class)->findAll();
 
         $faker = Factory::create('fr_FR');
         for ($i = 0; $i < 20; $i++) {
@@ -76,9 +65,14 @@ class AppFixtures extends Fixture
             $participant->setTelephone(intval($faker->phoneNumber()));;
             $participant->setMail($faker->email());
             $participant->setActif($faker->boolean(80));
-            $participant->setMotPasse($faker->password());
-            $participant->setRole($faker->randomElement($roles)->getLibelle());
 
+            $psw = $faker->password();
+            echo $psw;
+            echo "||";
+            $hashed = $this->passwordHasher->hashPassword($participant, $psw);
+
+            $participant->setMotPasse($hashed);
+            $participant->setRole($faker->randomElement(['ROLE_USER','ROLE_ADMIN']));
             $manager->persist($participant);
         }
         $manager->flush();
