@@ -18,16 +18,20 @@ header img {
 	margin: 0 10px;
 }
 
+h2 {
+	margin: 10px 0;}
+
 * {
-	margin: 0;
-	padding: 0;
-	font-family: Arial, Helvetica;
+	margin: 2px;
+	padding: 1px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Header */
 header {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	background-color: antiquewhite;
 	padding: 20px 50px;
 	box-shadow: 0 1px 8px #ddd;
@@ -59,7 +63,6 @@ header a:hover {
 main {
 	margin-top: 15px;
 	margin-left: 15px;
-	height:100vh;
 }
 
 main h1 {
@@ -73,7 +76,50 @@ main div.infos{
 	flex-direction: row-reverse;
 }
 
-.wish {
+/* affichage des tableaux dans le main */
+
+
+main table {
+	font-family: Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 90%;
+}
+
+main table td, main table th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+main table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+main table tr:hover {
+	background-color: #ddd;
+}
+
+main table th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #000000;
+	color: white;
+}
+
+main table a:link, main table a:visited {
+	background-color: #008080;
+	color: white;
+	padding: 14px 25px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+}
+
+main table a:hover, main table a:active {
+	background-color: #004040;
+}
+
+.form {
 	border-color:black;
 	border-radius:10px;
 	margin:15px;
@@ -111,6 +157,33 @@ main div.infos{
 	font-size: large;
 }
 
+button {
+	margin-left: auto;
+	margin-top: 10px;
+	margin-bottom: 5px; padding : 8px 16px;
+	border: 0.3px solid;
+	background-color: #072e5f;
+	color: #f2f2f2;
+	text-transform: uppercase;
+	letter-spacing: .09em;
+}
+
+button a {
+	text-decoration: none;
+	color: #fffbfb;
+	transition: all 0.3s ease 0s;
+}
+
+
+.formulaire {
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	padding: 5px;
+	border: 0.5px solid;
+	border-color: #b3adac;
+}
+
 
 /* 
 Module 04 - TP 6
@@ -120,6 +193,7 @@ I18N*/
 /* FOOTER */
 
 footer {
+	margin-top: 20px;
 	display: flex;
 	align-items: center;
 	background-color: #c9b7a0;

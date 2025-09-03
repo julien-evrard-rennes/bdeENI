@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Détail de {{ sortie.nom }}</h1>
+
+    <p>Organisée par : {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</p>
+
+{% endblock %}
+
+{% block title %}
+
+    Détail de {{ sortie.nom }}
+
+{% endblock %}
+

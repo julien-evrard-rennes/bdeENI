@@ -1,5 +1,23 @@
+<header>
+    <div class="logoslogan">
+        <img src="{{ asset('img/logo.jpg') }}" alt="Logo de l'ENI">
+        <h1>BDE de l'ENI</h1>
+        <p>(Si si, on existe...)</p>
+    </div>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+
+            <div id="appel" class="flash flash-{{ label }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+    {% endfor %}
+
 <nav>
     <ul>
+
         {% if app.user %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="">Ville</a></li>
@@ -16,3 +34,4 @@
         {% endif %}
     </ul>
 </nav>
+</header>

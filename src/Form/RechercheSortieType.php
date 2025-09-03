@@ -32,13 +32,16 @@ class RechercheSortieType extends AbstractType
                 'property_path' => 'dateHeureDebut',
                 'required' => false,
                 'widget'=>'single_text',
-                'label' => 'Entre'
+                'label' => 'Entre',
+                'data' => new \DateTime('now')
             ])
             ->add('dateHeureFin', DateType::class,[
                 'property_path' => 'dateHeureDebut',
                 'required' => false,
                 'widget'=>'single_text',
-                'label' => 'et'])
+                'label' => 'et',
+                'data' => new \DateTime('+ 15 days')
+            ])
             /**->add('etat', null, [
                 'required' => false,
                 'label' => 'sorties passées',

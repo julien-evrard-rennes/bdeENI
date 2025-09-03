@@ -9,25 +9,7 @@
 
     <body>
     <div class="container">
-        <header>
-            <img src="{{ asset('img/logo.jpg') }}" alt="Logo de l'ENI">
-            <h1>BDE de l'ENI</h1>
-            <p>(Si si, on existe...)</p>
-
-            {% for label, messages in app.flashes %}
-                {% for message in messages %}
-
-                    <div id="appel" class="flash flash-{{ label }}">
-                        {{ message }}
-                    </div>
-
-                {% endfor %}
-            {% endfor %}
-
-            <nav>
-                {%  include 'views/menu/nav.html.twig' %}
-            </nav>
-        </header>
+        {%  include 'views/menu/nav.html.twig' %}
         <main>
             {% block body %}{% endblock %}
         </main>

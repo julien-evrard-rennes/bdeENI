@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Inscription à {{ sortie.nom }}
+
+{% endblock %}
+
+{% block body %}
+    <h2>Inscription à {{ sortie.nom }}</h2>
+    <p>Organisée par : {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</p>
+    <p>Date de la sortie : {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</p>
+    <p>Lieu : {{ sortie.lieu.nom }}</p>
+    <p>Nombre de places disponibles : {{ sortie.nbInscriptionsMax - sortie.participants|length }}</p>
+
+{% endblock %}
+
