@@ -1,0 +1,21 @@
+{% extends 'base' %}
+
+{% block body %}
+
+    <h1>Mon profil</h1>
+
+    <div class="infos">
+        {%  if app.user %}
+            <b>Salut {{ app.user.userIdentifier }} </b>
+        {%  endif %}
+    </div>
+    <div class="formulaire">
+        <h2>Mes informations personnelles :</h2>
+
+
+        <button><a href="{{ path('profilUpdate') }}">Mettre à jour</a></button>
+
+
+    </div>
+
+{% endblock %}
