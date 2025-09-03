@@ -9,7 +9,7 @@
         <li><a href="{{ path ('accueil') }}">Accueil</a></li>
         {% if app.user %}
             <li><a href="">Mon Profil</a></li>
-            <li><a href="">Se déconnecter</a></li>
+            <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
         {% else %}
             <li><a href="{{ path('connex') }}">Se connecter</a></li>
             <li><a href="">S'enregistrer</a></li>
