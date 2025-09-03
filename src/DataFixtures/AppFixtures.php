@@ -27,6 +27,7 @@ class AppFixtures extends Fixture
         $this->addLieux($manager);
         $this->addSorties($manager);
         $this->addListeParticipants($manager);
+        $this->addPerso($manager);
 
     }
     private function addCampus(ObjectManager $manager): void
@@ -67,8 +68,6 @@ class AppFixtures extends Fixture
             $participant->setActif($faker->boolean(80));
 
             $psw = $faker->password();
-            echo $psw;
-            echo "||";
             $hashed = $this->passwordHasher->hashPassword($participant, $psw);
 
             $participant->setMotPasse($hashed);
@@ -147,6 +146,28 @@ class AppFixtures extends Fixture
             }
             $manager->persist($sortie);
         }
+        $manager->flush();
+    }
+
+    private function addPerso(ObjectManager $manager): void
+    {
+        $campus = $manager->getRepository(Campus::class)->findAll();
+
+        $participant = new participant();
+        $participant->setMail("julien.evrard2025@campus-eni.fr");
+        $participant->setRole("ROLE_ADMIN");
+        $participant->setActif(true);
+        $participant->setCampus($campus[0]);
+        $participant->setNom("Evrard");
+        $participant->setPrenom("Julien");
+        $participant->setTelephone(0606060606);
+
+        $psw = "Julien2025!";
+        $hashed = $this->passwordHasher->hashPassword($participant, $psw);
+
+        $participant->setMotPasse($hashed);
+
+        $manager->persist($participant);
         $manager->flush();
     }
 }

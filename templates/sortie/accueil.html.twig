@@ -4,10 +4,11 @@
 
     <h1>RECHERCHER UNE SORTIE </h1>
     <div class="infos">
-        Date du jour : {{ "now" | date("d/m/Y") }}
         {%  if app.user %}
-            <b>Salut {{ app.user.userIdentifier }} </b>
+            <p>Tu es un {{ app.user.role }}</p>
+            <p>Salut {{ app.user.prenom}}   {{  app.user.nom }} </p>
         {%  endif %}
+       <p> Date du jour : {{ "now" | date("d/m/Y") }}</p>
     </div>
 
     <div class="formulaire">
@@ -44,7 +45,7 @@
                 <td>{{ sortie.campus.nom }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
                 <td>
-                    {%  if app.user and sortie in sortiesInscrit %}
+                    {%  if app.user in sortie.participants %}
                         Oui
                     {%  else %}
                         Non
@@ -66,11 +67,11 @@
                         <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                     {%  endif %}
 
-                    {%  if app.user and sortie not in sortiesInscrit and sortie.etat.libelle == 'Ouverte' and (sortie.inscriptions | length) < sortie.nbInscriptionsMax and sortie.dateLimiteInscription > "now" %}
+                    {%  if app.user not in sortie.participants and sortie.etat.libelle == 'Ouverte' and (sortie.participants | length) < sortie.nbInscriptionsMax and sortie.dateLimiteInscription > "now" %}
                         <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
                     {%  endif %}
 
-                    {%  if app.user and sortie in sortiesInscrit and (sortie.etat.libelle == 'Ouverte' or sortie.etat.libelle == 'Clôturée') and sortie.dateLimiteInscription > "now" %}
+                    {%  if app.user in sortie.participants and (sortie.etat.libelle == 'Ouverte') and sortie.dateLimiteInscription > "now" %}
                         <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}"
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}

@@ -32,9 +32,13 @@ header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: antiquewhite;
+	background-color: #e2e3f7;
 	padding: 20px 50px;
-	box-shadow: 0 1px 8px #ddd;
+	box-shadow: 0 1px 8px #a8b0d1;
+}
+
+label {
+	font-weight: bold;
 }
 
 #nav {
@@ -82,7 +86,7 @@ main div.infos{
 main table {
 	font-family: Arial, Helvetica, sans-serif;
 	border-collapse: collapse;
-	width: 90%;
+	width: auto;
 }
 
 main table td, main table th {
@@ -107,26 +111,39 @@ main table th {
 }
 
 main table a:link, main table a:visited {
-	background-color: #008080;
+	position: relative;
+	width: 100px;
+	background-color: #293d3d;
 	color: white;
-	padding: 14px 25px;
+	padding: 5px 10px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
 }
 
 main table a:hover, main table a:active {
-	background-color: #004040;
+background-color: #1a7171;
 }
 
-.form {
-	border-color:black;
-	border-radius:10px;
-	margin:15px;
-	padding: 15px;
-	background-color: #fafaf2;
+
+/* Les détails */
+
+div.details {
+	display: flex;
+	justify-content: space-around;
+	padding: 10px;
+	flex-direction: row;
+	align-items: center;
+	width: 75%;
 
 }
+
+
+div.organisation, div.lieu {
+	background: #ffe4c470;
+
+}
+
 
 .center-main {
 	display: flex;
@@ -146,6 +163,15 @@ main table a:hover, main table a:active {
 
 /* 	FORMS */
 
+.form {
+	border-color:black;
+	border-radius:10px;
+	margin:15px;
+	padding: 15px;
+	background-color: #fafaf2;
+
+}
+
 .form-error{
 	color:red;
 }
@@ -156,6 +182,16 @@ main table a:hover, main table a:active {
 	padding:7px 0px;
 	font-size: large;
 }
+
+.formulaire {
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	padding: 5px;
+	border: 0.5px solid;
+	border-color: #b3adac;
+}
+
 
 button {
 	margin-left: auto;
@@ -172,16 +208,6 @@ button a {
 	text-decoration: none;
 	color: #fffbfb;
 	transition: all 0.3s ease 0s;
-}
-
-
-.formulaire {
-	display: flex;
-	flex-direction: column;
-	margin: auto;
-	padding: 5px;
-	border: 0.5px solid;
-	border-color: #b3adac;
 }
 
 

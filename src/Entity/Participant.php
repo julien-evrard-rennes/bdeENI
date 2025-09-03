@@ -264,4 +264,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // @deprecated, to be removed when upgrading to Symfony 8
     }
+
+    public function removeSortie(Sortie $sortie): self
+    {
+        if ($this->sorties->removeElement($sortie)) {
+            // set the owning side to null (unless already changed)
+            if ($sortie->getParticipants() === $this) {
+                $sortie->setParticipants(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

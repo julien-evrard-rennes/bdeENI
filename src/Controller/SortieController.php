@@ -28,9 +28,7 @@ final class SortieController extends AbstractController
                 $filtre['campus'] = $sortie->getCampus();
             }
             if ($sortie->getNom()) {
-                $filtreNom->$sortieRepository->findOneByName($sortie->getNom());
-            } else {
-                $filtreNom->$sortieRepository->findAll();
+                $filtreNom->$sortieRepository->RechercheParNom($sortie->getNom());
             }
         }
 
@@ -111,7 +109,7 @@ final class SortieController extends AbstractController
         if ($sortie->getParticipants()->contains($user)) {
             $this->addFlash("warning", 'Vous êtes déjà inscrit à la sortie "'.$sortie->getNom().'.');
         } else {
-            $sortie->addParticipant($user);
+            $sortie->setParticipants($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash("success", 'Vous êtes inscrit à la sortie "'.$sortie->getNom().'.');
@@ -141,12 +139,9 @@ final class SortieController extends AbstractController
             $entityManager->flush();
         }
 
-        $sorties = $sortieRepository ->findBy([],['dateHeureDebut' => 'DESC'], 10);
-
         $this->addFlash("success", 'Vous avez été désinscrit de"'.$sortie->getNom().'.');
 
         return $this->redirectToRoute('accueil', [
-            'sorties'=> $sorties,
         ]);
 
     }
