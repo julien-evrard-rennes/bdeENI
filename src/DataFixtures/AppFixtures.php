@@ -68,6 +68,7 @@ class AppFixtures extends Fixture
             $participant->setActif($faker->boolean(80));
 
             $psw = $faker->password();
+            echo $psw . "\n";
             $hashed = $this->passwordHasher->hashPassword($participant, $psw);
 
             $participant->setMotPasse($hashed);

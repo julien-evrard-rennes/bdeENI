@@ -1,0 +1,15 @@
+{% extends 'base' %}
+
+{% block body %}
+    <h2>Ajouter un lieu</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+        <button>Valider</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block title %}
+
+    Ajouter un lieu
+
+{% endblock %}

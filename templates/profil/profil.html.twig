@@ -11,10 +11,15 @@
     </div>
     <div class="formulaire">
         <h2>Mes informations personnelles :</h2>
+        <p>email : {{ app.user.mail }}</p>
+        <p>nom : {{ app.user.nom }}</p>
+        <p>prénom : {{ app.user.prenom }}</p>
+        <p>téléphone : {{ app.user.telephone }}</p>
+        <p>campus : {{ app.user.campus.nom }}</p>
 
-
+{%  if app.user %}
         <button><a href="{{ path('profilUpdate') }}">Mettre à jour</a></button>
-
+{% endif %}
 
     </div>
 

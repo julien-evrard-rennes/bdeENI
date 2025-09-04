@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\RechercheSortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,6 +51,11 @@ final class SortieController extends AbstractController
         if(!$sortie){
             throw $this->createNotFoundException('La sortie est introuvable !');
         }
+        if($sortie->getEtat()->getLibelle() === 'Annulée') {
+            return $this->render('sortie/annulation.html.twig', [
+                'sortie' => $sortie,
+            ]);
+        }
 
         return $this->render('sortie/detail.html.twig',[
             'sortie'=> $sortie,
@@ -73,13 +79,14 @@ final class SortieController extends AbstractController
     #[Route('/annuler/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
     public function annuler(int $id,
                             SortieRepository $sortieRepository,
+                            EtatRepository $etatRepository,
                             EntityManagerInterface $entityManager): Response{
         $sortie = $sortieRepository->find($id);
         if(!$sortie){
             throw $this->createNotFoundException('La sortie est introuvable !');
         }
 
-        $sortie->setEtat('Annulée');
+        $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
         $entityManager->persist($sortie);
         $entityManager->flush();
 
