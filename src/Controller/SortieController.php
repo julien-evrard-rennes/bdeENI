@@ -21,22 +21,18 @@ final class SortieController extends AbstractController
         $sortieForm = $this->createForm(RechercheSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
-        $filtre= [];
-        $filtreNom = [];
+        // src/Controller/SortieController.php
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            if ($sortie->getCampus()) {
-                $filtre['campus'] = $sortie->getCampus();
-            }
-            if ($sortie->getNom()) {
-                $filtreNom->$sortieRepository->RechercheParNom($sortie->getNom());
-            }
+            $ville = $sortieForm->get('campus')->getData();
+            $motCle = $sortieForm->get('nom')->getData();
+            $dateDebut = $sortieForm->get('dateHeureDebut')->getData();
+            $dateFin = $sortieForm->get('dateHeureFin')->getData();
+
+            $sorties = $sortieRepository->rechercheAvancee($ville, $motCle, $dateDebut, $dateFin);
+        } else {
+            $sorties = $sortieRepository->findBy([], ['dateHeureDebut' => 'DESC']);
         }
-
-       // $sorties = $sortieRepository ->findBy($filtre,['dateHeureDebut' => 'DESC'])
-            //-> findQuery($filtreNom);
-
-        $sorties = $sortieRepository->findBy($filtre, $filtreNom);
-
+        
         return $this->render('sortie/accueil.html.twig',[
             'sortieForm' => $sortieForm,
             'sorties'=> $sorties,

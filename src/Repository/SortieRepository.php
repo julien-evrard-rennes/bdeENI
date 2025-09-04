@@ -16,26 +16,40 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    //    /**
-    //     * @return Sortie[] Returns an array of Sortie objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+
+
+   public function rechercheAvancee($campus,
+                                    $motCle,
+                                    $dateDebut,
+                                    $dateFin)
+   {
+       $qb = $this->createQueryBuilder('s');
+
+       if ($campus) {
+              $qb->andWhere('s.campus = :campus')
+                 ->setParameter('campus', $campus);
+       }
+       if ($motCle) {
+           $qb->andWhere('s.nom LIKE :motCle')
+              ->setParameter('motCle', '%' . $motCle . '%');
+       }
+       if ($dateDebut) {
+           $qb->andWhere('s.dateHeureDebut >= :dateDebut')
+              ->setParameter('dateDebut', $dateDebut);
+       }
+       if ($dateFin) {
+           $qb->andWhere('s.dateHeureDebut <= :dateFin')
+              ->setParameter('dateFin', $dateFin);
+       }
+
+       return $qb->orderBy('s.dateHeureDebut', 'DESC')->getQuery()->getResult();
+   }
 
     public function rechercheParNom(?string $query): array
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.name LIKE :q')
-            ->setParameter('q', '%' . $query . '%')
+            ->andWhere('e.nom LIKE :motCherche')
+            ->setParameter('motCherche', '%' . $query . '%')
             ->getQuery()
             ->getResult();
     }
