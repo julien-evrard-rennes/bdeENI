@@ -91,18 +91,19 @@ $entityManager->persist($lieu);
             if (!empty($plainPassword)) {
                 $hashed = $hasher->hashPassword($participant, $plainPassword);
                 $participant->setMotPasse($hashed);
+            }
         $image = $form->get('photo')->getData();
 
         /**
          * @var UploadedFile $image
          */
         $newFileName = uniqid() . '.' . $image->guessExtension();
-        $image->move($this->getParameter('wish_image_dir'), $newFileName);
+        $image->move($this->getParameter('photo_directory'), $newFileName);
 
         $participant->setPhoto($newFileName);
-            }
 
             // L'entité est déjà gérée, flush suffit
+            $entityManager->persist($participant);
             $entityManager->flush();
 
             $this->addFlash('success', 'Participant mis à jour !');
