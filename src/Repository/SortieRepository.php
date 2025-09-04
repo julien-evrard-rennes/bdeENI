@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
-use App\Form\Models\RechercheSortie;
 use App\Form\RechercheSortieType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,7 +14,8 @@ class SortieRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RechercheSortieType::class);
+        parent::__construct($registry, Sortie::class);
+
     }
 
    public function rechercheAvancee($sortie, $utilisateur): array
@@ -25,14 +25,13 @@ class SortieRepository extends ServiceEntityRepository
        $dateDebut = $sortie->getDateDebut();
        $dateFin = $sortie->getDateFin();
        $anciennete = $sortie->getAnciennete();
-       $inscrit = $sortie->getInscrit();
-       $nonInscrit = $sortie->getNonInscrit();
        $organisateurPresent = $sortie->getOrganisateurPresent();
 
 
-       if ($campus) {
+       if ($sortie->getCampus()) {
               $qb->andWhere('s.campus = :campus')
-                 ->setParameter('campus', $campus);
+                 ->setParameter('campus', $sortie->getCampus());
+
        }
        if ($sortie->getnom()) {
            $motCle = $sortie->getNom();

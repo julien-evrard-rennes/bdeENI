@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Sortie;
 use App\Form\Models\RechercheSortie;
 use App\Form\RechercheSortieType;
 use App\Repository\EtatRepository;
@@ -19,9 +18,11 @@ final class SortieController extends AbstractController
     public function accueil(SortieRepository $sortieRepository,
                         Request $request): Response
     {
-        $sortie = new RechercheSortie();
-        $sortieForm = $this->createForm(RechercheSortieType::class, $sortie);
+        $sortieForm = $this->createForm(RechercheSortieType::class, null, [
+            'method' => 'GET',
+        ]);
         $sortieForm->handleRequest($request);
+
 
         // src/Controller/SortieController.php
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
@@ -35,7 +36,7 @@ final class SortieController extends AbstractController
         }
         
         return $this->render('sortie/accueil.html.twig',[
-            'sortieForm' => $sortieForm,
+            'sortieForm' => $sortieForm->createView(),
             'sorties'=> $sorties,
         ]);
     }

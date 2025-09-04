@@ -1,0 +1,26 @@
+{% extends 'base' %}
+
+{% block body %}
+
+<table>
+    <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Profil</th>
+    </tr>
+    {% for participant in participants %}
+        <tr>
+            <td>{{ participant.prenom }}</td>
+            <td>{{ participant.nom |upper  }}</td>
+            <td><a href="{{ path('profil', {'id' : participant.id}) }}">Profil</a></td>
+            {% if participant.actif %}
+            <td><a href="{{ path('desactiver', {'id' :participant.id}) }}">Desactiver</a></td>
+            {% else %}
+            <td><a href="{{ path('activer', {'id' :participant.id}) }}">Activer</a></td>
+            {% endif %}
+        </tr>
+    {% else %}
+        <td scope="row" colspan="2">Aucun participant inscrit.</td>
+    {% endfor %}
+</table>
+{% endblock %}

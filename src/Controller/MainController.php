@@ -18,12 +18,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class MainController extends AbstractController
 {
-    #[Route('/', name: 'accueil')]
-    public function accueil(): Response
-    {
-        return $this->render("sortie/accueil.html.twig");
-    }
-
     #[Route('/AjoutLieu', name: 'ajoutLieu')]
     public function ajoutLieu(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -32,7 +26,7 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-$entityManager->persist($lieu);
+            $entityManager->persist($lieu);
             $entityManager->flush();
 
             $this->addFlash('success', 'Lieu ajouté avec succès !');
@@ -40,7 +34,6 @@ $entityManager->persist($lieu);
             return $this->redirectToRoute('ajoutLieu');
 
         }
-
         return $this->render("lieu/ajoutLieu.html.twig", [
             'form' => $form->createView()
         ]);
@@ -55,7 +48,6 @@ $entityManager->persist($lieu);
             'participant' => $participant
         ]);
     }
-
     #[Route('/ProfilUpdate', name: 'profilUpdate')]
     public function profilUpdate(Request $request): Response
     {
@@ -63,10 +55,8 @@ $entityManager->persist($lieu);
         if (!$participant) {
             throw $this->createAccessDeniedException();
         }
-
         return $this->redirectToRoute('update', ['id' => $participant->getId()]);
     }
-
     #[Route('/ProfilUpdate/{id}', name: 'update', requirements: ['id' => '\d+'])]
     public function update(
         int $id,

@@ -3,12 +3,9 @@
 namespace App\Form\Models;
 
 use App\Entity\Campus;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-
 
 class RechercheSortie
 {
-
     private ?Campus $campus =null;
 
     private ?string $nom =null;

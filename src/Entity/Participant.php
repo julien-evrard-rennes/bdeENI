@@ -93,7 +93,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->photo = $photo;
     }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -274,19 +273,19 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[\Deprecated]
     public function eraseCredentials(): void
     {
+
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function removeSortie(Sortie $sortie): self
-    {
-        if ($this->sorties->removeElement($sortie)) {
-            // set the owning side to null (unless already changed)
-            if ($sortie->getParticipants() === $this) {
-                $sortie->setParticipants(null);
+        public function removeSortie(Sortie $sortie): self
+        {
+            if ($this->sorties->removeElement($sortie)) {
+                // set the owning side to null (unless already changed)
+                if ($sortie->getParticipants() === $this) {
+                    $sortie->setParticipants(null);
+                }
             }
+
+            return $this;
         }
-
-        return $this;
-    }
-
 }
