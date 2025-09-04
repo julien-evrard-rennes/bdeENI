@@ -110,7 +110,7 @@ main table th {
 	color: white;
 }
 
-main table a:link, main table a:visited {
+ main table a:link, main table a:visited {
 	position: relative;
 	width: 100px;
 	background-color: #293d3d;

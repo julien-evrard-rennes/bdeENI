@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Form\Models\RechercheSortie;
+use App\Form\RechercheSortieType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,23 +15,27 @@ class SortieRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Sortie::class);
+        parent::__construct($registry, RechercheSortieType::class);
     }
 
-
-
-   public function rechercheAvancee($campus,
-                                    $motCle,
-                                    $dateDebut,
-                                    $dateFin)
+   public function rechercheAvancee($sortie, $utilisateur): array
    {
        $qb = $this->createQueryBuilder('s');
+       $campus = $sortie->getCampus();
+       $dateDebut = $sortie->getDateDebut();
+       $dateFin = $sortie->getDateFin();
+       $anciennete = $sortie->getAnciennete();
+       $inscrit = $sortie->getInscrit();
+       $nonInscrit = $sortie->getNonInscrit();
+       $organisateurPresent = $sortie->getOrganisateurPresent();
+
 
        if ($campus) {
               $qb->andWhere('s.campus = :campus')
                  ->setParameter('campus', $campus);
        }
-       if ($motCle) {
+       if ($sortie->getnom()) {
+           $motCle = $sortie->getNom();
            $qb->andWhere('s.nom LIKE :motCle')
               ->setParameter('motCle', '%' . $motCle . '%');
        }
@@ -38,8 +44,24 @@ class SortieRepository extends ServiceEntityRepository
               ->setParameter('dateDebut', $dateDebut)
              ->setParameter('dateFin', $dateFin);
        }
+       if(!$anciennete) {
+           $qb->join('s.etat', 'e')
+               ->andWhere("e.libelle != 'Passée'")
+               ->andWhere('s.dateHeureDebut <= :archive')
+               ->setParameter('archive', new \DateTime('+ 28 days'));
+       }
 
-       return $qb->getQuery()->getResult();
+       if ($organisateurPresent) {
+
+              // Supposons que l'utilisateur connecté est passé en paramètre
+              $qb ->join('s.organisateur', 'o')
+                  ->andWhere('s.organisateur = :utilisateur')
+                 ->setParameter('utilisateur', $utilisateur);
+         }
+
+       return $qb->orderBy('s.dateHeureDebut', 'ASC')
+           ->getQuery()
+           ->getResult();
    }
 
     public function rechercheParNom(?string $query): array
@@ -47,6 +69,19 @@ class SortieRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
             ->andWhere('e.nom LIKE :motCherche')
             ->setParameter('motCherche', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function rechercheBasique()
+    {
+            $qb = $this->createQueryBuilder('s')
+                ->join('s.etat', 'e')
+                ->andWhere("e.libelle != 'Passée'")
+            ->andWhere('s.dateHeureDebut <= :archive')
+            ->setParameter('archive', new \DateTime('+ 28 days'));
+
+             return $qb->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult();
     }

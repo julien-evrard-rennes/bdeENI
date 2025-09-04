@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\Models\RechercheSortie;
 use App\Form\RechercheSortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -18,20 +19,19 @@ final class SortieController extends AbstractController
     public function accueil(SortieRepository $sortieRepository,
                         Request $request): Response
     {
-        $sortie = new Sortie();
+        $sortie = new RechercheSortie();
         $sortieForm = $this->createForm(RechercheSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
         // src/Controller/SortieController.php
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $ville = $sortieForm->get('campus')->getData();
-            $motCle = $sortieForm->get('nom')->getData();
-            $dateDebut = $sortieForm->get('dateHeureDebut')->getData();
-            $dateFin = $sortieForm->get('dateHeureFin')->getData();
+            $sortie = $sortieForm->getData();
+            $utilisateur = $this->getUser();
 
-            $sorties = $sortieRepository->rechercheAvancee($ville, $motCle, $dateDebut, $dateFin);
+            $sorties = $sortieRepository->rechercheAvancee($sortie,$utilisateur);
+
         } else {
-            $sorties = $sortieRepository->findBy([], ['dateHeureDebut' => 'DESC']);
+            $sorties = $sortieRepository->rechercheBasique();
         }
         
         return $this->render('sortie/accueil.html.twig',[
