@@ -85,7 +85,7 @@ final class SortieController extends AbstractController
 
         $this->addFlash("success", 'La sortie "'.$sortie->getNom().'" a bien été annulée.');
 
-        $sorties = $sortieRepository ->findBy([],['dateHeureDebut' => 'DESC'], 10);
+        $sorties = $sortieRepository ->findBy([],['dateHeureDebut' => 'DESC']);
 
         return $this->redirectToRoute('accueil', [
             'sorties'=> $sorties,

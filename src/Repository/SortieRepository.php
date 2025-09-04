@@ -33,16 +33,13 @@ class SortieRepository extends ServiceEntityRepository
            $qb->andWhere('s.nom LIKE :motCle')
               ->setParameter('motCle', '%' . $motCle . '%');
        }
-       if ($dateDebut) {
-           $qb->andWhere('s.dateHeureDebut >= :dateDebut')
-              ->setParameter('dateDebut', $dateDebut);
-       }
-       if ($dateFin) {
-           $qb->andWhere('s.dateHeureDebut <= :dateFin')
-              ->setParameter('dateFin', $dateFin);
+       if ($dateDebut && $dateFin) {
+           $qb->andWhere('s.dateHeureDebut >= :dateDebut AND s.dateHeureDebut <= :dateFin')
+              ->setParameter('dateDebut', $dateDebut)
+             ->setParameter('dateFin', $dateFin);
        }
 
-       return $qb->orderBy('s.dateHeureDebut', 'DESC')->getQuery()->getResult();
+       return $qb->getQuery()->getResult();
    }
 
     public function rechercheParNom(?string $query): array
