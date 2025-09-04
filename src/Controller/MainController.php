@@ -8,6 +8,7 @@ use App\Form\ProfilUpdateForm;
 use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,10 +46,14 @@ $entityManager->persist($lieu);
         ]);
     }
 
-    #[Route('/Profil', name: 'profil')]
-    public function profil(): Response
+    #[Route('/Profil/{id}', name: 'profil', requirements: ['id' => '\d+'])]
+    public function profil(int $id, ParticipantRepository $participantRepository): Response
     {
-        return $this->render("profil/profil.html.twig");
+        $participant = $participantRepository->find($id);
+
+        return $this->render("profil/profil.html.twig", [
+            'participant' => $participant
+        ]);
     }
 
     #[Route('/ProfilUpdate', name: 'profilUpdate')]
@@ -81,12 +86,20 @@ $entityManager->persist($lieu);
             'method' => 'POST',
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
             if (!empty($plainPassword)) {
                 $hashed = $hasher->hashPassword($participant, $plainPassword);
                 $participant->setMotPasse($hashed);
+        $image = $form->get('photo')->getData();
+
+        /**
+         * @var UploadedFile $image
+         */
+        $newFileName = uniqid() . '.' . $image->guessExtension();
+        $image->move($this->getParameter('wish_image_dir'), $newFileName);
+
+        $participant->setPhoto($newFileName);
             }
 
             // L'entité est déjà gérée, flush suffit

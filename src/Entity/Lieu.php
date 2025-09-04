@@ -30,7 +30,7 @@ class Lieu
     #[ORM\ManyToOne(inversedBy: "lieu")]
     private ?Ville $ville = null;
 
-    #[ORM\OneToMany(mappedBy: "lieu", targetEntity: Sortie::class)]
+    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: "lieu")]
     private ?Collection $sorties;
 
     public function __construct()

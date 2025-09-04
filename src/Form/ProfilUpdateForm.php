@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -83,17 +83,12 @@ class ProfilUpdateForm extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'image/gif',
-                            'image/webp',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez téléverser une image valide (JPEG, PNG, GIF, WebP).',
-                    ]),
-                ],
+                    new Image(
+                    maxSize: '1M',
+                    maxSizeMessage: "L'image ne doit pas dépasser 1 Mo",
+                    extensions: ['png', 'jpg'],
+                    extensionsMessage: "Les types autorisés sont .png et .jpg"
+                )],
             ]);
     }
 

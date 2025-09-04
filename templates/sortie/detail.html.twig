@@ -32,11 +32,17 @@
     <tr>
         <th>Prénom</th>
         <th>Nom</th>
+        {% if sortie.participants.contains(app.user) %}
+        <th>Profil</th>
+        {% endif %}
     </tr>
         {% for participant in sortie.participants %}
             <tr>
             <td>{{ participant.prenom }}</td>
             <td>{{ participant.nom |upper  }}</td>
+                {% if sortie.participants.contains(app.user) %}
+                <td><a href="{{ path('profil', {'id' : participant.id}) }}">Profil</a></td>
+                {% endif %}
             </tr>
         {% else %}
             <td scope="row" colspan="2">Aucun participant inscrit.</td>

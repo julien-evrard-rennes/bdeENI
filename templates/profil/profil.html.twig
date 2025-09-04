@@ -5,19 +5,19 @@
     <h1>Mon profil</h1>
 
     <div class="infos">
-        {%  if app.user %}
+        {%  if app.user.id == participant.id %}
             <b>Salut {{ app.user.userIdentifier }} </b>
         {%  endif %}
     </div>
     <div class="formulaire">
         <h2>Mes informations personnelles :</h2>
-        <p>email : {{ app.user.mail }}</p>
-        <p>nom : {{ app.user.nom }}</p>
-        <p>prénom : {{ app.user.prenom }}</p>
-        <p>téléphone : {{ app.user.telephone }}</p>
-        <p>campus : {{ app.user.campus.nom }}</p>
+        <p>email : {{ participant.mail }}</p>
+        <p>nom : {{ participant.nom }}</p>
+        <p>prénom : {{ participant.prenom }}</p>
+        <p>téléphone : {{ participant.telephone }}</p>
+        <p>campus : {{ participant.nom }}</p>
 
-{%  if app.user %}
+{%  if app.user.id == participant.id %}
         <button><a href="{{ path('profilUpdate') }}">Mettre à jour</a></button>
 {% endif %}
 
