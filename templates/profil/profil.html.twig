@@ -16,7 +16,7 @@
         <p>prénom : {{ participant.prenom }}</p>
         <p>téléphone : {{ participant.telephone }}</p>
         <p>campus : {{ participant.nom }}</p>
-        <img src="{{ asset('photo/profil/' ~ participant.photo) }}" alt="photo de profil">
+        <img src="{{ asset('photo/profil/' ~ participant.photo) }}" width="100px" height="100px" alt="photo de profil">
 
 {%  if app.user.id == participant.id %}
         <button><a href="{{ path('profilUpdate') }}">Mettre à jour</a></button>
