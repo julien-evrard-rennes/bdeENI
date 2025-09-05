@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
-use App\Form\RechercheSortieType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
