@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Sortie;
 use App\Form\Models\RechercheSortie;
 use App\Form\RechercheSortieType;
-use App\Form\SortieDetailsType;
 use App\Repository\EtatRepository;
-use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,53 +36,14 @@ final class SortieController extends AbstractController
         }
         
         return $this->render('sortie/accueil.html.twig',[
-            'sortieForm' => $sortieForm,
+            'sortieForm' => $sortieForm->createView(),
             'sorties'=> $sorties,
         ]);
     }
 
     #[Route('/creer', name: 'sortie_creer')]
-    public function creer(Request $request,
-                          EntityManagerInterface $entityManager,
-                          EtatRepository $etatRepository,
-        ParticipantRepository $participantRepository): Response{
-
-        $sortie = new Sortie();
-        $sortieForm = $this->createForm(SortieDetailsType::class, $sortie);
-        $sortieForm->handleRequest($request);
-
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            // Récupérer les données du formulaire
-            $sortie = $sortieForm->getData();
-            $sortie->setOrganisateur($this->getUser());
-            $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
-            if
-            ($sortieForm->get('publication')->isSubmitted()){
-                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
-            }
-
-            if($sortie->getDateHeureDebut() < new \DateTime()){
-                $this->addFlash('error', 'La date de début doit être dans le futur.');
-                return $this->redirectToRoute('sortie_creer');
-            }
-
-
-
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-
-            // Ajouter un message flash pour indiquer que la recherche a été effectuée
-            $this->addFlash('success', 'La sortie "'.$sortie->getNom().'" a été enregistrée !');
-
-            // Rediriger vers une autre page si nécessaire
-            return $this->redirectToRoute('accueil');
-        }
-
-        return $this->render('sortie/creer.html.twig',[
-            'sortieDetailsForm' => $sortieForm
-        ]);
-
+    public function creer(): Response{
+        return $this->render('sortie/creer.html.twig',);
     }
 
     #[Route('/detail/{id}', name: 'sortie_detail', requirements: ['id' => '\d+'])]
