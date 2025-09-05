@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\Models\RechercheSortie;
 use App\Form\RechercheSortieType;
+use App\Form\SortieAnnulationForm;
 use App\Form\SortieDetailsType;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
@@ -60,8 +61,9 @@ final class SortieController extends AbstractController
             $sortie->setOrganisateur($this->getUser());
             $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
+            $publication = $sortieForm->get('publication')->getData();
             if
-            ($sortieForm->get('publication')->isSubmitted()){
+            ($publication){
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
             }
 
@@ -69,8 +71,6 @@ final class SortieController extends AbstractController
                 $this->addFlash('error', 'La date de début doit être dans le futur.');
                 return $this->redirectToRoute('sortie_creer');
             }
-
-
 
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -95,7 +95,7 @@ final class SortieController extends AbstractController
             throw $this->createNotFoundException('La sortie est introuvable !');
         }
         if($sortie->getEtat()->getLibelle() === 'Annulée') {
-            return $this->render('sortie/annulation.html.twig', [
+            return $this->render('sortie/detailannulee.html.twig', [
                 'sortie' => $sortie,
             ]);
         }
@@ -106,21 +106,51 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/modifier/{id}', name: 'sortie_modifier', requirements: ['id' => '\d+'])]
-    public function modifier(int $id,
-                             SortieRepository $sortieRepository,
-    ): Response{
+    public function modifier(int                    $id,
+                             SortieRepository       $sortieRepository,
+                             EntityManagerInterface $entityManager,
+                             Request                $request,
+                             EtatRepository $etatRepository,
+    ): Response
+    {
         $sortie = $sortieRepository->find($id);
         if(!$sortie){
             throw $this->createNotFoundException('La sortie est introuvable !');
         }
 
+        $sortieForm = $this->createForm(SortieDetailsType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $sortie = $sortieForm->getData();
+            $publication = $sortieForm->get('publication')->getData();
+            if ($publication) {
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
+            }
+
+            if($sortie->getDateHeureDebut() < new \DateTime()){
+                $this->addFlash('error', 'La date de début doit être dans le futur.');
+                return $this->redirectToRoute('sortie_modifier',['id'=>$id]);
+            }
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            // Ajouter un message flash
+            $this->addFlash("success", 'La sortie "'.$sortie->getNom().'" a bien été modifiée.');
+
+            return $this->redirectToRoute('accueil');
+        }
+
         return $this->render('sortie/modifier.html.twig',[
             'sortie'=> $sortie,
+            'sortieDetailsForm' => $sortieForm
         ]);
     }
 
     #[Route('/annuler/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
     public function annuler(int $id,
+                            Request $request,
                             SortieRepository $sortieRepository,
                             EtatRepository $etatRepository,
                             EntityManagerInterface $entityManager): Response{
@@ -128,17 +158,25 @@ final class SortieController extends AbstractController
         if(!$sortie){
             throw $this->createNotFoundException('La sortie est introuvable !');
         }
+        $sortieForm = $this->createForm(SortieAnnulationForm::class, $sortie);
+        $sortieForm->handleRequest($request);
 
-        $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
-        $entityManager->persist($sortie);
-        $entityManager->flush();
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $sortie = $sortieForm->getData();
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
 
-        $this->addFlash("success", 'La sortie "'.$sortie->getNom().'" a bien été annulée.');
+            $entityManager->persist($sortie);
+            $entityManager->flush();
 
-        $sorties = $sortieRepository ->findBy([],['dateHeureDebut' => 'DESC']);
+            // Ajouter un message flash
+            $this->addFlash("success", 'La sortie "'.$sortie->getNom().'" a bien été annulée.');
+            return $this->redirectToRoute('accueil');
 
-        return $this->redirectToRoute('accueil', [
-            'sorties'=> $sorties,
+        }
+
+        return $this->render('sortie/annulation.html.twig', [
+            'sortie'=> $sortie,
+            'sortieAnnulationForm' => $sortieForm
         ]);
     }
 
@@ -192,7 +230,7 @@ final class SortieController extends AbstractController
 
     }
 
-    #[Route('/supprimer/{id}', name: 'sortie_publier', requirements: ['id' => '\d+'])]
+    #[Route('/supprimer/{id}', name: 'sortie_supprimer', requirements: ['id' => '\d+'])]
     public function supprimer(int $id,
                               SortieRepository $sortieRepository,
                               EntityManagerInterface $entityManager

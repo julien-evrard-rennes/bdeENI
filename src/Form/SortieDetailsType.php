@@ -29,10 +29,10 @@ class SortieDetailsType extends AbstractType
                 'choice_label' => 'nom',
                 'disabled' => true,
             ])
-            ->add('dateHeureDebut',DateTimeType::class,[
-            'property_path' => 'dateHeureDebut',
-            'widget'=>'single_text',
-            'label' => 'Date et heure de la sortie* :',
+            ->add('dateHeureDebut', DateTimeType::class, [
+                'property_path' => 'dateHeureDebut',
+                'widget' => 'single_text',
+                'label' => 'Date et heure de la sortie* :',
                 'html5' => true,
             ])
 
@@ -40,10 +40,9 @@ class SortieDetailsType extends AbstractType
                 'required' => false,
                 'label' => 'Durée (en minutes) :'
             ])
-            ->add('dateLimiteInscription',DateType::class,[
+            ->add('dateLimiteInscription', DateType::class, [
                 'property_path' => 'dateLimiteInscription',
                 'widget' => 'single_text',
-                'input'  => 'datetime_immutable',
                 'label' => 'Date limite de l\'inscription* :',
             ])
 

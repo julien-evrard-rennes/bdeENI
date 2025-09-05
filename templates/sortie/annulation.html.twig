@@ -1,6 +1,21 @@
 {% extends 'base' %}
 
+
 {% block body %}
-    <h2>Sortie annulée</h2>
-    <p>{{ sortie.infosSortie }}</p>
+    <h1>Annulation de "{{ sortie.nom}}"</h1>
+
+    {{ form_start (sortieAnnulationForm) }}
+    {{ form_widget (sortieAnnulationForm) }}
+
+        <button>{% block button %}Annuler la sortie{% endblock %}</button>
+        <button><a href="{{ path('accueil') }}">Retour</a> </button>
+
+    {{ form_end (sortieAnnulationForm) }}
+
+{% endblock %}
+
+{% block title %}
+
+    Annuler {{ sortie.nom }}
+
 {% endblock %}

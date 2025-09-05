@@ -138,6 +138,14 @@ div.details {
 
 }
 
+div.annulation {
+	background-color: #edeaea;
+	color: #6f6767;
+}
+
+div.annulation div.lieu, div.annulation div.organisation {
+	background-color: #edeaea;
+}
 
 div.organisation, div.lieu {
 	background: #ffe4c470;

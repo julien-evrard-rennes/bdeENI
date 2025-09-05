@@ -11,7 +11,7 @@ class SortieAnnulationForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
 {
     $builder
-        ->add('infosSortie', TextType::class, [
+        ->add('infosSortie', null, [
             'label' => 'Raison de l\'annulation :',
             'required' => true,
         ]);

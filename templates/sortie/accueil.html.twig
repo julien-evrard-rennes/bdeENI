@@ -65,7 +65,7 @@
                     <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a>
                     {%  endif %}
 
-                    {%  if app.user and app.user == sortie.organisateur and sortie.etat.libelle == 'Créée' %}
+                    {%  if app.user and app.user == sortie.organisateur and sortie.etat.libelle != 'Annulée' %}
                         <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                     {%  endif %}
 
@@ -77,6 +77,7 @@
                         <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}"
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}
+
                 </td>
         </tr>
 
