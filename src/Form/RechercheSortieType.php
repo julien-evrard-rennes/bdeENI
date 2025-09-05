@@ -22,7 +22,8 @@ class RechercheSortieType extends AbstractType
                 'class' => Campus::class,
                 'label' => 'Campus :',
                 'choice_label' => 'nom',
-            ])
+                'required' => false,
+                ])
             ->add('nom', SearchType::class, [
                 'required' => false,
                 'label' => 'Le nom de la sortie contient :'
@@ -32,14 +33,12 @@ class RechercheSortieType extends AbstractType
                 'required' => false,
                 'widget'=>'single_text',
                 'label' => 'Entre',
-                'data' => new \DateTime('now'),
             ])
             ->add('dateHeureFin', DateType::class,[
                 'property_path' => 'dateHeureDebut',
                 'required' => false,
                 'widget'=>'single_text',
                 'label' => 'et',
-                'data' => new \DateTime('+ 15 days'),
             ])
             ->add('organisateurPresent', checkboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',

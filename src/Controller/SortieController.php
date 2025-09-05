@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Sortie;
 use App\Form\Models\RechercheSortie;
 use App\Form\RechercheSortieType;
 use App\Repository\EtatRepository;
+use App\Repository\RechercheSortieRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,14 +17,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class SortieController extends AbstractController
 {
     #[Route('', name: 'accueil')]
-    public function accueil(SortieRepository $sortieRepository,
+    public function accueil(RechercheSortieRepository $sortieRepository,
                         Request $request): Response
     {
-        $sortieForm = $this->createForm(RechercheSortieType::class, null, [
-            'method' => 'GET',
-        ]);
+        $sortie = new RechercheSortie();
+        $sortieForm = $this->createForm(RechercheSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
-
+        dump($request->request->all());
 
         // src/Controller/SortieController.php
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {

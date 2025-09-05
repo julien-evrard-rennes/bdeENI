@@ -21,8 +21,8 @@ class SortieRepository extends ServiceEntityRepository
    {
        $qb = $this->createQueryBuilder('s');
        $campus = $sortie->getCampus();
-       $dateDebut = $sortie->getDateDebut();
-       $dateFin = $sortie->getDateFin();
+       $dateDebut = $sortie->getDateHeureDebut();
+       $dateFin = $sortie->getDateHeureFin();
        $anciennete = $sortie->getAnciennete();
        $organisateurPresent = $sortie->getOrganisateurPresent();
 
