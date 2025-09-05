@@ -12,7 +12,7 @@ class SortieTest extends TestCase
         $sortie->setNom('test');
         $sortie->setInfosSortie('Pique nique au cocoBongo');
         $sortie->setNbInscriptionsMax(10);
-        $sortie->setDurée(120);
+        $sortie->setDuree(120);
         $sortie->setDateHeureDebut(new DateTime('2024-06-30 14:00:00'));
         $sortie->setDateLimiteInscription(new DateTime('2024-06-25 23:59:59'));
         $Part1 = new Participant();

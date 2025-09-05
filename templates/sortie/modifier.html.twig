@@ -1,7 +1,17 @@
     {% extends 'base.html.twig' %}
 
+{% form_theme sortieDetailsForm 'views/form/form-theme.hml.twig' %}
+
 {% block body %}
     <h2>Modifier {{ sortie.nom }}</h2>
+    {% embed 'views/forms/sortie-form.html.twig' %}
+
+    {% block sortieTitle %} Modifier la sortie {% endblock %}
+    {% block buttonLabel%} Mettre à jour la sortie {% endblock %}
+        {% block buttonLabel%} Publier la sortie {% endblock %}
+        {% block buttonLabel%} {{ path('sortie_detail', {'id': sortie.id}) }} Retour à la sortie {% endblock %}
+
+    {% endembed %}
 
 {% endblock %}
 

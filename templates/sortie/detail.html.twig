@@ -15,9 +15,10 @@
                 / {{ sortie.nbInscriptionsMax }}</p>
             <p><label>Date de la sortie :</label> {{ sortie.dateHeureDebut | date("d/m/Y ") }} à {{ sortie.dateHeureDebut | date("H:i") }}</p>
             <p><label>Date limite d'inscription :</label> {{ sortie.dateLimiteInscription | date("d/m/Y") }}</p>
-            <p><label>Durée :</label> {{ sortie.durée }} minutes</p>
+            <p><label>Durée :</label> {{ sortie.duree }} minutes</p>
         </div>
 
+        {% if sortie.lieu %}
         <div class="lieu">
             <p><label>Lieu :</label> {{ sortie.lieu.nom }}</p>
             <p><label>Rue :</label> {{ sortie.lieu.rue }}</p>
@@ -26,6 +27,7 @@
             <p><label>Latitude :</label> {{ sortie.lieu.latitude }}</p>
             <p><label>Longitude :</label> {{ sortie.lieu.longitude }}</p>
         </div>
+        {% endif %}
     </div>
     <h3>Participants inscrits</h3>
 <table>

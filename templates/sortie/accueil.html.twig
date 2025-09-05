@@ -16,6 +16,7 @@
         <h2>Filtrer les sorties :</h2>
 
             {{ form_start(sortieForm) }}
+            {{ form_row(sortieForm.campus) }}
             {{ form_widget(sortieForm) }}
             <button>Rechercher !</button>
             {{ form_end(sortieForm) }}
@@ -54,7 +55,7 @@
                     </a>
                 </td>
                 <td>
-                    {%  if app.user and app.user != sortie.organisateur %}
+                    {%  if app.user and app.user != sortie.organisateur or sortie.etat.libelle != 'Créée' %}
                     <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
                         {% elseif sortie.etat.libelle == 'Annulée' or sortie.etat.libelle == 'Activité en cours' %}
                             <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>

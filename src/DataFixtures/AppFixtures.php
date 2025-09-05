@@ -120,7 +120,7 @@ class AppFixtures extends Fixture
             $sortie->setEtat($faker->randomElement($Etat));
             $sortie->setNom($faker->realText(20));
             $sortie->setLieu($faker->randomElement($lieux));
-            $sortie->setDurée($faker->numberBetween(60, 300));
+            $sortie->setDuree($faker->numberBetween(60, 300));
             $sortie->setDateLimiteInscription($faker->dateTimeBetween('-1 month', '+1 month'));
             $sortie->setDateHeureDebut($faker->dateTimeBetween('-1 month', '+1 month'));
             $sortie->setInfosSortie($faker->realText(100));

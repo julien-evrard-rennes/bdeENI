@@ -22,7 +22,7 @@ class Sortie
     private ?\DateTime $dateHeureDebut = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $durée = null;
+    private ?int $duree = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $dateLimiteInscription = null;
@@ -151,17 +151,16 @@ class Sortie
         return $this;
     }
 
-    public function getDurée(): ?int
+    public function getDuree(): ?int
     {
-        return $this->durée;
+        return $this->duree;
     }
 
-    public function setDurée(?int $durée): void
+    public function setDuree(?int $duree): self
     {
-        $this->durée = $durée;
-
+        $this->duree = $duree;
+        return $this;
     }
-
 
     public function getDateLimiteInscription(): ?\DateTime
     {

@@ -1,13 +1,22 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme sortieDetailsForm 'views/forms/sortie-form.html.twig' %}
+
 {% block body %}
     <h2>Créer une sortie</h2>
+    {% embed 'views/forms/sortie-form.html.twig' %}
+
+    {% block sortieTitle %} Créer une nouvelle sortie {% endblock %}
+        {% block button %} Créer la sortie {% endblock %}
+        {% block buttonRetour %} Retour à la liste  {% endblock %}
+
+    {% endembed %}
 
 {% endblock %}
 
 {% block title %}
 
-    Créer une sortie
+    Créer une nouvelle sortie
 
 {% endblock %}
 

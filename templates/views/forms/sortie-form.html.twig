@@ -1,0 +1,10 @@
+<h1>{% block formTitle %}{% endblock %}</h1>
+
+{{ form_start (sortieDetailsForm) }}
+{{ form_widget (sortieDetailsForm) }}
+<p>* Les champs marqués d'une * sont obligatoires</p>
+
+<button>{% block button %}{% endblock %}</button>
+<button>{% block buttonRetour %}{{ path('accueil') }}{% endblock %}</button>
+
+{{ form_end (sortieDetailsForm) }}

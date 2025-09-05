@@ -3,11 +3,17 @@
 namespace App\Form;
 
 use App\Entity\Campus;
-use App\Form\Models\RechercheSortie;
+use App\Entity\Etat;
+use App\Entity\Lieu;
+use App\Entity\Participant;
+use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,19 +28,20 @@ class RechercheSortieType extends AbstractType
                 'class' => Campus::class,
                 'label' => 'Campus :',
                 'choice_label' => 'nom',
+                'required' => false,
             ])
             ->add('nom', SearchType::class, [
                 'required' => false,
                 'label' => 'Le nom de la sortie contient :'
             ])
-            ->add('dateHeureDebut',DateType::class,[
+            ->add('dateHeureDebut',DateTimeType::class,[
                 'property_path' => 'dateHeureDebut',
                 'required' => false,
                 'widget'=>'single_text',
                 'label' => 'Entre',
                 'data' => new \DateTime('now'),
             ])
-            ->add('dateHeureFin', DateType::class,[
+            ->add('dateHeureFin', DateTimeType::class,[
                 'property_path' => 'dateHeureDebut',
                 'required' => false,
                 'widget'=>'single_text',
@@ -55,7 +62,6 @@ class RechercheSortieType extends AbstractType
                 'required' => false,
             ])
             ->add('anciennete', checkboxType::class, [
-
                 'label' => 'Sorties passées',
                 'required' => false,
                 'mapped' => false,
@@ -67,8 +73,7 @@ class RechercheSortieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => RechercheSortie::class,
-
+            'data_class' => null,
         ]);
     }
 
