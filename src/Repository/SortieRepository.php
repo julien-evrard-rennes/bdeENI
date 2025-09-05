@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
-use App\Form\RechercheSortieType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,8 +21,8 @@ class SortieRepository extends ServiceEntityRepository
    {
        $qb = $this->createQueryBuilder('s');
        $campus = $sortie->getCampus();
-       $dateDebut = $sortie->getDateDebut();
-       $dateFin = $sortie->getDateFin();
+       $dateDebut = $sortie->getDateHeureDebut();
+       $dateFin = $sortie->getDateHeureFin();
        $anciennete = $sortie->getAnciennete();
        $organisateurPresent = $sortie->getOrganisateurPresent();
 
