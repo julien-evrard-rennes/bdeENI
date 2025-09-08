@@ -1,7 +1,6 @@
 {% extends 'base' %}
 
 {% block body %}
-    <button><a href="{{ path('utilisateur_creer') }}">Ajouter un participant</a></button>
 <table>
     <tr>
         <th>Prénom</th>
@@ -14,6 +13,7 @@
             <td>{{ participant.prenom }}</td>
             <td>{{ participant.nom |upper  }}</td>
             <td><a href="{{ path('profil', {'id' : participant.id}) }}">Profil</a></td>
+            <td><a href="{{ path('supprimer',{'id' : participant.id}) }}">Supprimer</a></td>
             {% if participant.actif %}
             <td><a href="{{ path('desactiver', {'id' :participant.id}) }}">Desactiver</a></td>
             {% else %}
