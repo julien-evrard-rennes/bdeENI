@@ -8,6 +8,7 @@ use App\Form\RechercheSortieType;
 use App\Form\SortieAnnulationForm;
 use App\Form\SortieDetailsType;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\RechercheSortieRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -229,7 +230,7 @@ final class SortieController extends AbstractController
 
     }
 
-    #[Route('/supprimer/{id}', name: 'sortie_publier', requirements: ['id' => '\d+'])]
+    #[Route('/supprimer/{id}', name: 'sortie_supprimer', requirements: ['id' => '\d+'])]
     public function supprimer(int $id,
                               SortieRepository $sortieRepository,
                               EntityManagerInterface $entityManager

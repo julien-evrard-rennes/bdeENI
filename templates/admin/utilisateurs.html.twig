@@ -1,12 +1,13 @@
 {% extends 'base' %}
 
 {% block body %}
-
+    <button><a href="{{ path('accueil') }}">Ajouter un participant</a></button>
 <table>
     <tr>
         <th>Prénom</th>
         <th>Nom</th>
         <th>Profil</th>
+        <th>État</th>
     </tr>
     {% for participant in participants %}
         <tr>
@@ -22,5 +23,7 @@
     {% else %}
         <td scope="row" colspan="2">Aucun participant inscrit.</td>
     {% endfor %}
+
 </table>
+    <button><a href="{{ path('accueil') }}">Ajouter un participant</a></button>
 {% endblock %}

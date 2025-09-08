@@ -8,7 +8,7 @@
     {{ form_widget (sortieAnnulationForm) }}
 
         <button>{% block button %}Annuler la sortie{% endblock %}</button>
-        <button><a href="{{ path('accueil') }}">Retour</a> </button>
+        <a class="bouton" href="{{ path('accueil') }}">Retour</a>
 
     {{ form_end (sortieAnnulationForm) }}
 

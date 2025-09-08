@@ -17,6 +17,17 @@ class AdminController extends AbstractController
             'participants' => $participants
         ]);
     }
+
+    #[Route('/Profil/creer', name: 'utilisateur_creer')]
+    public function creerUtilisateur(
+        ParticipantRepository $participantRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $userPasswordHasher
+    ): Response {
+        return $this->render("admin/creer_utilisateur.html.twig");
+    }
+
     #[Route('/desactiver/{id}', name: 'desactiver', requirements: ['id' => '\d+'])]
     public function desactiver(int $id, EntityManagerInterface $entityManager,ParticipantRepository $participantRepository)
     {

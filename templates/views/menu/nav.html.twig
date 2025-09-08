@@ -20,8 +20,8 @@
 
         {% if app.user %}
             {% if app.user.role('ROLE_ADMIN') %}
-                <li><a href="">Ville</a></li>
-                <li><a href="">Campus</a></li>
+                <li><a href="{{ path('accueil') }}">Ville</a></li>
+                <li><a href="{{ path('accueil') }}">Campus</a></li>
                 <li><a href="{{ path('utilisateurs') }}">Utilisateurs</a></li>
             {% endif %}
         {% endif %}

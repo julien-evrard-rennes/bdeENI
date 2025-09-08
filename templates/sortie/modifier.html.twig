@@ -11,7 +11,8 @@
         {% block buttonRetour%}  Retour à la liste {% endblock %}
     {% endembed %}
     {% if sortie.etat.libelle == 'Créée' %}
-        <button><a href="{{ path('sortie_supprimer', {'id': sortie.id}) }}">Supprimer la sortie</a> </button>
+        <button><a href="{{ path('sortie_supprimer', {'id': sortie.id}) }}"
+                   onclick="return confirm('Voulez-vous vraiment vous supprimer la sortie {{ sortie.nom }} ?')">Supprimer la sortie</a> </button>
     {% endif %}
     {% if sortie.etat.libelle == 'Ouverte' %}
         <button><a href="{{ path('sortie_annuler',  {'id': sortie.id}) }}">Annuler la sortie</a> </button>

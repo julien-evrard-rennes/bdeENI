@@ -218,6 +218,23 @@ button a {
 	transition: all 0.3s ease 0s;
 }
 
+button:hover {
+	background-color: #1a7171;
+	cursor: pointer;
+}
+
+a.bouton {
+	text-decoration: none;
+	padding : 8px 16px;
+	color: #122d6e;
+	text-transform: uppercase;
+}
+
+a.bouton:hover {
+	color: #1a7171;
+	cursor: pointer;
+}
+
 
 /* 
 Module 04 - TP 6

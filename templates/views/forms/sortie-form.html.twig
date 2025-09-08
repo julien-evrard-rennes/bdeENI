@@ -2,9 +2,10 @@
 
 {{ form_start (sortieDetailsForm) }}
 {{ form_widget (sortieDetailsForm) }}
+<a class="bouton" href="{{ path('ajoutLieu') }}">Ajouter un lieu</a>
 <p>* Les champs marqués d'une * sont obligatoires</p>
 
 <button>{% block button %}{% endblock %}</button>
-<button>{% block buttonRetour %}{{ path('accueil') }}{% endblock %}</button>
+<a class="bouton" href="{{ path('accueil') }}">Retour</a>
 
 {{ form_end (sortieDetailsForm) }}

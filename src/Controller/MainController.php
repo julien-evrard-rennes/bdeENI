@@ -19,7 +19,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class MainController extends AbstractController
 {
     #[Route('/AjoutLieu', name: 'ajoutLieu')]
-    public function ajoutLieu(Request $request, EntityManagerInterface $entityManager): Response
+    public function ajoutLieu(Request $request,
+                              EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieu();
         $form = $this->createForm(LieuxAjoutForm::class, $lieu);
@@ -31,7 +32,7 @@ class MainController extends AbstractController
 
             $this->addFlash('success', 'Lieu ajouté avec succès !');
 
-            return $this->redirectToRoute('ajoutLieu');
+            return $this->redirectToRoute('sortie_creer' );
 
         }
         return $this->render("lieu/ajoutLieu.html.twig", [
