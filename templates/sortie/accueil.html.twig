@@ -81,16 +81,16 @@
                         <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}"
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}
-
+                    {% if app.user.role == 'ROLE_ADMIN' %}
+                        <a href="{{ path('sortie_supprimer', {'id': sortie.id}) }}"
+                           onclick="return confirm('Voulez-vous vraiment supprimer la sortie {{ sortie.nom }} ?')">Supprimer</a>
+                    {% endif %}
                 </td>
         </tr>
-
         {%  else %}
             <p>Aucune sortie ne correspond à vos critères</p>
         {%  endfor %}
-
     </table>
-
     <button>
         <a href="{{ path('sortie_creer') }}">Creer une sortie </a>
     </button>

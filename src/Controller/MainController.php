@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Lieu;
+use App\Entity\Ville;
+use App\Form\CampusCreationForm;
 use App\Form\LieuxAjoutForm;
 use App\Form\ProfilUpdateForm;
+use App\Form\VilleCreationForm;
 use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\VilleRepository;
@@ -112,20 +116,52 @@ class MainController extends AbstractController
     }
 
     #[Route('/campus', name: 'listeCampus')]
-    public function listeCampus (CampusRepository $campusRepository): Response
+    public function listeCampus (CampusRepository $campusRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $campusListe     = $campusRepository->findAll();
+        $campus = new Campus();
+        $form = $this->createForm(CampusCreationForm::class, $campus);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $nom = $form->get('nom')->getData();
+            if ($campusRepository->findOneBy(['nom' => $nom])) {
+                $this->addFlash('danger', 'Ce campus existe déjà !');
+                return $this->redirectToRoute('listeCampus');
+            }
+        $campus->setNom($nom);
+        $entityManager->persist($campus);
+        $entityManager->flush();
+            $this->addFlash('success', 'Campus créé avec succès !');
+        }
         return $this->render("admin/listeCampus.html.twig", [
-            'campusListe' => $campusListe
+            'campusListe' => $campusListe,
+            'form' => $form->createView()
         ]);
     }
 
     #[Route('/villes', name: 'listeVilles')]
-    public function listeVilles (VilleRepository $villeRepository): Response
+    public function listeVilles (VilleRepository $villeRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
         $villeListe = $villeRepository->findAll();
+        $ville = new Ville();
+        $form = $this->createForm(VilleCreationForm::class, $ville);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $nom = $form->get('nom')->getData();
+            $cp = $form->get('codePostal')->getData();
+            if ($villeRepository->findOneBy(['nom' => $nom])) {
+                $this->addFlash('danger', 'Cette ville existe déjà !');
+                return $this->redirectToRoute('listeVilles');
+            }
+            $ville->setNom($nom);
+            $ville->setCodePostal($cp);
+            $entityManager->persist($ville);
+            $entityManager->flush();
+            $this->addFlash('success', 'Ville créée avec succès !');
+        }
         return $this->render("admin/villeliste.html.twig", [
-            'villeListe' => $villeListe
+            'villeListe' => $villeListe,
+            'form' =>$form->createView()
         ]);
     }
 

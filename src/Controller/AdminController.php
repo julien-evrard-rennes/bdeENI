@@ -64,7 +64,17 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    #[Route('/admin/supprimer/{id}', name: 'supprimer', requirements: ['id' => '\d+'])]
+    public function supprimer(int $id, EntityManagerInterface $entityManager,ParticipantRepository $participantRepository)
+    {
+        $participant = $participantRepository->find($id);
+        if ($participant) {
+            $entityManager->remove($participant);
+            $entityManager->flush();
+            $this->addFlash('success', 'Utilisateur supprimé avec succès !');
+            return $this->redirectToRoute('utilisateurs');
+        }
+    }
     #[Route('/desactiver/{id}', name: 'desactiver', requirements: ['id' => '\d+'])]
     public function desactiver(int $id, EntityManagerInterface $entityManager,ParticipantRepository $participantRepository)
     {
@@ -87,5 +97,6 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('utilisateurs');
         }
     }
+
 
 }

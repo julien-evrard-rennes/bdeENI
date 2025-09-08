@@ -238,7 +238,7 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/supprimer/{id}', name: 'sortie_supprimer', requirements: ['id' => '\d+'])]
-    public function supprimer(int $id,
+    public function supprimerSortie(int $id,
                               SortieRepository $sortieRepository,
                               EntityManagerInterface $entityManager
     ): Response
@@ -253,11 +253,7 @@ final class SortieController extends AbstractController
 
         $this->addFlash("success", 'La sortie "' . $sortie->getNom() . '" a bien été supprimée.');
 
-        $sorties = $sortieRepository->findBy([], ['dateHeureDebut' => 'DESC'], 10);
-
-        return $this->redirectToRoute('accueil', [
-            'sorties' => $sorties,
-        ]);
+        return $this->redirectToRoute('accueil');
 
     }
 
