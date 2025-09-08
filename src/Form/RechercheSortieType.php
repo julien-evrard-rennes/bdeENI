@@ -35,7 +35,7 @@ class RechercheSortieType extends AbstractType
                 'label' => 'Entre',
             ])
             ->add('dateHeureFin', DateType::class,[
-                'property_path' => 'dateHeureDebut',
+                'property_path' => 'dateHeureFin',
                 'required' => false,
                 'widget'=>'single_text',
                 'label' => 'et',
@@ -54,10 +54,8 @@ class RechercheSortieType extends AbstractType
                 'required' => false,
             ])
             ->add('anciennete', checkboxType::class, [
-
                 'label' => 'Sorties passées',
                 'required' => false,
-                'mapped' => false,
             ])
 
         ;

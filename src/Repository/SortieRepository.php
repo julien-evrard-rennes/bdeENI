@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\This;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -25,38 +26,67 @@ class SortieRepository extends ServiceEntityRepository
        $dateFin = $sortie->getDateHeureFin();
        $anciennete = $sortie->getAnciennete();
        $organisateurPresent = $sortie->getOrganisateurPresent();
+       $inscrit = $sortie->getInscrit();
+       $nonInscrit = $sortie->getNonInscrit();
+       dump($sortie);
+    dump($utilisateur);
 
 
        if ($sortie->getCampus()) {
+           dump('Campus');
               $qb->andWhere('s.campus = :campus')
                  ->setParameter('campus', $sortie->getCampus());
 
        }
        if ($sortie->getnom()) {
+           dump('Nom');
            $motCle = $sortie->getNom();
            $qb->andWhere('s.nom LIKE :motCle')
               ->setParameter('motCle', '%' . $motCle . '%');
        }
        if ($dateDebut && $dateFin) {
+              dump('Date');
            $qb->andWhere('s.dateHeureDebut >= :dateDebut AND s.dateHeureDebut <= :dateFin')
               ->setParameter('dateDebut', $dateDebut)
              ->setParameter('dateFin', $dateFin);
        }
-       if(!$anciennete) {
+       if ($inscrit) {
+                dump('Inscrit');
+              $qb->join('s.participants', 'p')
+                ->andWhere('p = :utilisateur')
+                ->setParameter('utilisateur', $utilisateur->getId());
+       }
+       if ($nonInscrit) {
+                dump('Non Inscrit');
+              $qb->leftJoin('s.participants', 'p')
+                 ->andWhere('p != :utilisateur')
+                 ->setParameter('utilisateur', $utilisateur->getId());
+       }
+       if($anciennete) {
+           $oneMonthAgo = (new \DateTimeImmutable())->modify('-1 month');
+
+           dump('Anciennete');
            $qb->join('s.etat', 'e')
-               ->andWhere("e.libelle != 'Passée'")
-               ->andWhere('s.dateHeureDebut <= :archive')
-               ->setParameter('archive', new \DateTime('+ 28 days'));
+               ->andWhere('s.dateHeureDebut < :oneMonthAgo')
+               ->setParameter('oneMonthAgo', $oneMonthAgo)
+               ->andWhere("e.id = 181");
+           $sorties = $qb->getQuery()->getResult();
+           dump($sorties);
+           foreach ($sorties as $sortie) {
+               $sortie->setEtat($this->getEntityManager()->getRepository('App\Entity\Etat')->findOneBy(['libelle' => 'Historisé']));
+               $this->getEntityManager()->persist($sortie);
+               $this->getEntityManager()->flush();
+           }
        }
 
        if ($organisateurPresent) {
-
-              // Supposons que l'utilisateur connecté est passé en paramètre
+                dump('Organisateur');
               $qb ->join('s.organisateur', 'o')
                   ->andWhere('s.organisateur = :utilisateur')
                  ->setParameter('utilisateur', $utilisateur);
          }
 
+       dump($qb->getQuery()->getSQL());
        return $qb->orderBy('s.dateHeureDebut', 'ASC')
            ->getQuery()
            ->getResult();
@@ -75,10 +105,7 @@ class SortieRepository extends ServiceEntityRepository
     {
             $qb = $this->createQueryBuilder('s')
                 ->join('s.etat', 'e')
-                ->andWhere("e.libelle != 'Passée'")
-            ->andWhere('s.dateHeureDebut <= :archive')
-            ->setParameter('archive', new \DateTime('+ 28 days'));
-
+                ->andWhere("e.id != 181");
              return $qb->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult();

@@ -21,24 +21,32 @@ final class SortieController extends AbstractController
 {
     #[Route('', name: 'accueil')]
     public function accueil(RechercheSortieRepository $sortieRepository,
-                        Request $request): Response
+                            Request $request): Response
     {
         $sortie = new RechercheSortie();
         $sortieForm = $this->createForm(RechercheSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
-        dump($request->request->all());
 
-        // src/Controller/SortieController.php
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $sortie = $sortieForm->getData();
-            $utilisateur = $this->getUser();
+            $critere = $sortieForm->getData();
 
-            $sorties = $sortieRepository->rechercheAvancee($sortie,$utilisateur);
+            $hasCriteria =
+                (null !== $critere->getCampus()) ||
+                (null !== $critere->getDateHeureDebut()) ||
+                (null !== $critere->getDateHeureFin()) ||
+                (null !== $critere->getAnciennete()) ||
+                ($critere->getOrganisateurPresent() === true) ||
+                ($critere->getInscrit() === true) ||
+                ($critere->getNonInscrit() === true) ||
+                (null !== $critere->getNom() && trim($critere->getNom()) !== '');
+
+            $sorties = $hasCriteria
+                ? $sortieRepository->rechercheAvancee($critere, $this->getUser())
+                : $sortieRepository->rechercheBasique();
 
         } else {
             $sorties = $sortieRepository->rechercheBasique();
         }
-        
         return $this->render('sortie/accueil.html.twig',[
             'sortieForm' => $sortieForm->createView(),
             'sorties'=> $sorties,
@@ -56,7 +64,7 @@ final class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            // Récupérer les données du formulaire
+
             $sortie = $sortieForm->getData();
             $sortie->setOrganisateur($this->getUser());
             $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
@@ -225,12 +233,11 @@ final class SortieController extends AbstractController
 
         $this->addFlash("success", 'Vous avez été désinscrit de"'.$sortie->getNom().'.');
 
-        return $this->redirectToRoute('accueil', [
-        ]);
+        return $this->redirectToRoute('accueil');
 
     }
 
-    #[Route('/supprimer/{id}', name: 'sortie_supprimer', requirements: ['id' => '\d+'])]
+    #[Route('/supprimer/{id}', name: 'sortie_publier', requirements: ['id' => '\d+'])]
     public function supprimer(int $id,
                               SortieRepository $sortieRepository,
                               EntityManagerInterface $entityManager

@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
     }
     private function addEtats(ObjectManager $manager): void
     {
-     $Etats = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée'];
+     $Etats = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée','Historisé'];
 
         foreach ($Etats as $eta) {
             $etat = new Etat();
