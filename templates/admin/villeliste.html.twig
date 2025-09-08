@@ -1,0 +1,19 @@
+{% extends 'base' %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>Villes</th>
+            <th>Code Postal</th>
+        </tr>
+        {% for ville in villeListe %}
+            <tr>
+                <td>{{ ville.nom }}</td>
+                <td>{{ ville.codePostal }}</td>
+            </tr>
+        {% else %}
+            <td scope="row" colspan="2">L'école n'est raccordée à aucun campus</td>
+        {% endfor %}
+
+    </table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base' %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>Campus</th>
+        </tr>
+        {% for campus in campusListe %}
+            <tr>
+                <td>{{ campus.nom }}</td>
+            </tr>
+        {% else %}
+            <td scope="row" colspan="2">L'école n'est raccordée à aucun campus</td>
+        {% endfor %}
+
+    </table>
+{% endblock %}
+

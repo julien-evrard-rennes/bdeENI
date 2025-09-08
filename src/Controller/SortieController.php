@@ -237,7 +237,7 @@ final class SortieController extends AbstractController
 
     }
 
-    #[Route('/supprimer/{id}', name: 'sortie_publier', requirements: ['id' => '\d+'])]
+    #[Route('/supprimer/{id}', name: 'sortie_supprimer', requirements: ['id' => '\d+'])]
     public function supprimer(int $id,
                               SortieRepository $sortieRepository,
                               EntityManagerInterface $entityManager

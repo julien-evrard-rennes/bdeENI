@@ -17,14 +17,17 @@
 
 <nav>
     <ul>
+            {% if app.user %}
+            {% if app.user.role == 'ROLE_USER' %}
+                <li> coucou role user</li>
 
-        {% if app.user %}
-            {% if app.user.role('ROLE_ADMIN') %}
-                <li><a href="{{ path('accueil') }}">Ville</a></li>
-                <li><a href="{{ path('accueil') }}">Campus</a></li>
+            {% elseif app.user.role == 'ROLE_ADMIN' %}
+                <li><a href="{{ path('listeVilles') }}">Ville</a></li>
+                <li><a href="{{ path('listeCampus') }}">Campus</a></li>
                 <li><a href="{{ path('utilisateurs') }}">Utilisateurs</a></li>
             {% endif %}
         {% endif %}
+
         <li><a href="{{ path ('accueil') }}">Accueil</a></li>
         {% if app.user %}
             <li><a href="{{ path('profil', {'id' : app.user.id}) }}">Mon Profil</a></li>

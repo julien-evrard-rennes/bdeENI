@@ -69,7 +69,7 @@ class SortieRepository extends ServiceEntityRepository
            $qb->join('s.etat', 'e')
                ->andWhere('s.dateHeureDebut < :oneMonthAgo')
                ->setParameter('oneMonthAgo', $oneMonthAgo)
-               ->andWhere("e.id = 181");
+               ->andWhere("e.id = 49");
            $sorties = $qb->getQuery()->getResult();
            dump($sorties);
            foreach ($sorties as $sortie) {
@@ -105,7 +105,7 @@ class SortieRepository extends ServiceEntityRepository
     {
             $qb = $this->createQueryBuilder('s')
                 ->join('s.etat', 'e')
-                ->andWhere("e.id != 181");
+                ->andWhere("e.id != 49");
              return $qb->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult();

@@ -7,6 +7,7 @@ use App\Form\LieuxAjoutForm;
 use App\Form\ProfilUpdateForm;
 use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,6 +111,23 @@ class MainController extends AbstractController
         ]);
     }
 
+    #[Route('/campus', name: 'listeCampus')]
+    public function listeCampus (CampusRepository $campusRepository): Response
+    {
+        $campusListe     = $campusRepository->findAll();
+        return $this->render("admin/listeCampus.html.twig", [
+            'campusListe' => $campusListe
+        ]);
+    }
+
+    #[Route('/villes', name: 'listeVilles')]
+    public function listeVilles (VilleRepository $villeRepository): Response
+    {
+        $villeListe = $villeRepository->findAll();
+        return $this->render("admin/villeliste.html.twig", [
+            'villeListe' => $villeListe
+        ]);
+    }
 
 }
 

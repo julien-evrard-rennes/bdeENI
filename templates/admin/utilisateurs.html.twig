@@ -1,7 +1,7 @@
 {% extends 'base' %}
 
 {% block body %}
-    <button><a href="{{ path('accueil') }}">Ajouter un participant</a></button>
+    <button><a href="{{ path('utilisateur_creer') }}">Ajouter un participant</a></button>
 <table>
     <tr>
         <th>Prénom</th>
@@ -25,5 +25,5 @@
     {% endfor %}
 
 </table>
-    <button><a href="{{ path('accueil') }}">Ajouter un participant</a></button>
+    <button><a href="{{ path('utilisateur_creer') }}">Ajouter un participant</a></button>
 {% endblock %}

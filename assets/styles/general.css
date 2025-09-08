@@ -78,6 +78,7 @@ main h1 {
 main div.infos{
 	display: flex;
 	flex-direction: row-reverse;
+	flex-wrap: wrap;
 }
 
 /* affichage des tableaux dans le main */
@@ -87,6 +88,7 @@ main table {
 	font-family: Arial, Helvetica, sans-serif;
 	border-collapse: collapse;
 	width: auto;
+	text-align: center;
 }
 
 main table td, main table th {
@@ -105,7 +107,7 @@ main table tr:hover {
 main table th {
 	padding-top: 12px;
 	padding-bottom: 12px;
-	text-align: left;
+	text-align: center;
 	background-color: #000000;
 	color: white;
 }
@@ -249,5 +251,85 @@ footer {
 	align-items: center;
 	background-color: #c9b7a0;
 	padding: 10px 10px;
+
+}
+
+/* Ajouts d'un CSS particulier pour les tablettes */
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+
+	* {
+		font-size: 1em;
+	}
+
+	h2 {
+		font-size: medium;
+	}
+
+	header {
+		padding: 5px 5px;
+		font-size: small;
+}
+	div.logoslogan{
+			display: none;
+	}
+
+	main table#tableaudesorties {
+		border-collapse: collapse;
+		font-size: x-small;
+	}
+
+	th.campus, td.campus {
+		display:none;
+	}
+
+	main table#tableaudesorties a:link, main table#tableaudesorties a:visited
+{
+	padding: 3px 5px;
+	text-align: center;
+		width: initial;
+}
+
+	main table#tableaudesorties td, main table#tableaudesorties th {
+		padding: 3px;
+	}
+
+	button {
+		margin-left: auto;
+		margin-top: 2px;
+		margin-bottom: 3px;
+		padding: 3px 3px;
+	}
+
+
+
+}
+
+/* Ajouts d'un CSS particulier pour les mobiles */
+
+@media screen and (max-width: 480px) {
+	main {
+		background-color: #6ecc6e;
+	}
+
+	main table#tableaudesorties {
+		border-collapse: collapse;
+		font-size: x-small;
+	}
+
+	* {
+		font-size: 1em;
+	}
+
+	main table#tableaudesorties a:link, main table#tableaudesorties a:visited
+	{
+		padding: 3px 5px;
+		text-align: center;
+		width: initial;
+	}
+
+	main table#tableaudesorties td, main table#tableaudesorties th {
+		padding: 3px;
+	}
 
 }
