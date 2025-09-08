@@ -279,7 +279,7 @@ footer {
 		font-size: x-small;
 	}
 
-	th.campus, td.campus {
+	.campus {
 		display:none;
 	}
 
