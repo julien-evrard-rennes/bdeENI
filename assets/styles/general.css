@@ -308,21 +308,46 @@ footer {
 /* Ajouts d'un CSS particulier pour les mobiles */
 
 @media screen and (max-width: 480px) {
-	main {
-		background-color: #6ecc6e;
+
+	* {
+		font-size: 1em;
 	}
 
-	main table#tableaudesorties {
-		border-collapse: collapse;
-		font-size: x-small;
+	div.logoslogan {
+		display: none;
+	}
+
+	h2 {
+		font-size: small;
+	}
+
+	main div.infos {
+		font-size: 0.8em;
+	}
+
+	.formulaire {
+		font-size: 0.7em;
 	}
 
 	* {
 		font-size: 1em;
 	}
 
-	main table#tableaudesorties a:link, main table#tableaudesorties a:visited
-	{
+	header {
+		padding: 5px 5px;
+		font-size: small;
+	}
+
+	.campus {
+		display: none;
+	}
+
+	main table#tableaudesorties {
+		font-size: 0.5em;
+		border-collapse: collapse;
+	}
+
+	main table#tableaudesorties a:link, main table#tableaudesorties a:visited {
 		padding: 3px 5px;
 		text-align: center;
 		width: initial;
@@ -330,6 +355,28 @@ footer {
 
 	main table#tableaudesorties td, main table#tableaudesorties th {
 		padding: 3px;
+	}
+
+	main table {
+		border-collapse: collapse;
+		font-size: small;
+	}
+
+	main table a:link, main table a:visited {
+		padding: 2px 2px;
+		text-align: center;
+		width: initial;
+	}
+
+	button {
+		margin-left: auto;
+		margin-top: 2px;
+		margin-bottom: 3px;
+		padding: 3px 3px;
+	}
+
+	.afficheOrdi {
+		display: none;
 	}
 
 }
