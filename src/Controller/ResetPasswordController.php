@@ -87,7 +87,7 @@ class ResetPasswordController extends AbstractController
         $token = $this->getTokenFromSession();
 
         if (null === $token) {
-            throw $this->createNotFoundException('L\'adresse que vous avez entrée ne correspond pas.');
+            throw $this->createNotFoundException('L\'adresse que vous avez entré ne correspond pas à celles enregistrées sur le site');
         }
 
         try {
@@ -157,7 +157,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('adminBE@campus-eni.fr', 'Admin BDE'))
+            ->from(new Address('adminBDE@BDEni.com', 'Admin BDE'))
             ->to((string) $user->getMail())
             ->subject('Votre demande de réinitialisation de mot de passe')
             ->htmlTemplate('reset_password/email.html.twig')

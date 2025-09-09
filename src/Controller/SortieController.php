@@ -26,6 +26,7 @@ final class SortieController extends AbstractController
         $sortie = new RechercheSortie();
         $sortieForm = $this->createForm(RechercheSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
+        $maintenant = new \DateTime();
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $critere = $sortieForm->getData();
@@ -50,6 +51,7 @@ final class SortieController extends AbstractController
             return $this->render('sortie/accueil.html.twig', [
                 'sortieForm' => $sortieForm->createView(),
                 'sorties' => $sorties,
+                'maintenant' => $maintenant,
             ]);
     }
 

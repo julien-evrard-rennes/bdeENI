@@ -9,7 +9,7 @@ header li {
 	list-style: none;
 	display: inline-block;
 	padding: 0 30px;
-	font-size: 1.2em;
+	font-size: 1.3em;
 	gap: 10px;
 }
 
@@ -97,25 +97,25 @@ main table td, main table th {
 }
 
 main table tr:nth-child(even) {
-	background-color: #f2f2f2;
+	background-color: #f2f6ff;
 }
 
 main table tr:hover {
-	background-color: #ddd;
+	background-color: #fdfafa;
 }
 
 main table th {
 	padding-top: 12px;
 	padding-bottom: 12px;
 	text-align: center;
-	background-color: #000000;
+	background-color: #010c1e;
 	color: white;
 }
 
  main table a:link, main table a:visited {
 	position: relative;
 	width: 100px;
-	background-color: #293d3d;
+	background-color: #010c1e;
 	color: white;
 	padding: 5px 10px;
 	text-align: center;
@@ -276,7 +276,7 @@ footer {
 
 	main table#tableaudesorties {
 		border-collapse: collapse;
-		font-size: x-small;
+		font-size: small;
 	}
 
 	.campus {

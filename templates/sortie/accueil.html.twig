@@ -8,7 +8,7 @@
             <p>Tu es un {{ app.user.role }}</p>
             <p>Salut {{ app.user.prenom}}   {{  app.user.nom  }} </p>
         {%  endif %}
-       <p> Date du jour : {{ "now" | date("d/m/Y") }}</p>
+        <p> Date du jour : {{ maintenant | date("d/m/Y") }}</p>
     </div>
 
     <div class="formulaire">
@@ -64,28 +64,24 @@
                     <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a>
                     {%  endif %}
 
-                    {%  if app.user and app.user == sortie.organisateur and sortie.etat.libelle == 'Ouverte' %}
+                    {%  if app.user and app.user == sortie.organisateur and sortie.etat.libelle == 'Ouverte' and sortie.dateHeureDebut > maintenant %}
                         <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}">Modifier</a>
                     {%  endif %}
 
-                    {%  if app.user and app.user == sortie.organisateur and sortie.etat.libelle != 'Annulée' %}
-                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
-                    {%  endif %}
-
-                    {%  if app.user not in sortie.participants and sortie.etat.libelle == 'Ouverte' and (sortie.participants | length) < sortie.nbInscriptionsMax and sortie.dateLimiteInscription > "now" %}
+                    {%  if app.user not in sortie.participants and sortie.etat.libelle == 'Ouverte' and (sortie.participants | length) < sortie.nbInscriptionsMax and sortie.dateLimiteInscription > maintenant %}
                         <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
                     {%  endif %}
 
-                    {%  if app.user in sortie.participants and (sortie.etat.libelle == 'Ouverte') and sortie.dateLimiteInscription > "now" %}
+                    {%  if app.user in sortie.participants and (sortie.etat.libelle == 'Ouverte') and sortie.dateLimiteInscription > maintenant %}
                         <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}"
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}
-                    {% if app.user.role == 'ROLE_ADMIN' and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée') %}
-                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"
-                           onclick="return confirm('Voulez-vous vraiment annuler la sortie {{ sortie.nom }} ?')">Annuler</a>
+                    {% if app.user == sortie.organisateur and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée') and sortie.dateHeureDebut > maintenant or app.user.role == 'ROLE_ADMIN'  and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée')  and sortie.dateHeureDebut > maintenant %}
+                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" onclick="return confirm('Voulez-vous vraiment annuler la sortie {{ sortie.nom }} ?')">Annuler</a>
                     {% endif %}
                 </td>
         </tr>
+
         {%  else %}
             <p>Aucune sortie ne correspond à vos critères</p>
         {%  endfor %}
