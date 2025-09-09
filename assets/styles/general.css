@@ -8,14 +8,22 @@
 header li {
 	list-style: none;
 	display: inline-block;
-	padding: 0 30px;
+	padding: 0 10px;
 	font-size: 1.3em;
-	gap: 10px;
 }
 
 header img {
-	width: 25px;
-	margin: 0 10px;
+		width: 50px;
+}
+
+header img.profil {
+	width: 35px;
+	height: 35px;
+	object-fit: cover;
+	margin-top: 20px;
+	border-radius: 50% 50% 50% 50%;
+	border: 2px solid #2240a8;
+
 }
 
 h2 {
@@ -89,11 +97,14 @@ main div.infos{
 main table {
 	font-family: Arial, Helvetica, sans-serif;
 	border-collapse: collapse;
+	border-radius:50%;
 	width: auto;
 	text-align: center;
+
 }
 
 main table td, main table th {
+	border-radius:5%;
 	border: 1px solid #ddd;
 	padding: 8px;
 }
@@ -288,7 +299,7 @@ footer {
 		font-size: small;
 	}
 
-	.campus {
+	.campus, .profil {
 		display:none;
 	}
 
@@ -347,8 +358,8 @@ footer {
 		font-size: small;
 	}
 
-	.campus {
-		display: none;
+	.campus, .profil {
+		display:none;
 	}
 
 	main table#tableaudesorties {
