@@ -16,18 +16,10 @@ class VilleCreationForm extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la ville :',
                 'trim' => true,
-                'constraints' => [
-                    new NotBlank(message: 'Veuillez saisir un nom.'),
-                    new Length(max: 180),
-                ],
             ])
             ->add('codePostal', TextType::class, [
                 'label' => 'Code Postal :',
                 'trim' => true,
-                'constraints' => [
-                    new NotBlank(message: 'Veuillez saisir un code postal.'),
-                    new Length(max: 5),
-                ],
             ]);
 
     }

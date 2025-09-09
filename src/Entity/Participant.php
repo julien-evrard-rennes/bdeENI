@@ -41,7 +41,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
     #[NotBlank(message: 'Le mot de passe est obligatoire.')]
     #[Length (max: 255, maxMessage: 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $motPasse = null;

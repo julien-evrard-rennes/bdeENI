@@ -23,13 +23,11 @@ class Ville
     #[ORM\Column(length: 255)]
     #[NotBlank(message: 'Le nom est obligatoire.')]
     #[Length (max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
-    #[Unique]
     private ?string $nom = null;
 
     #[ORM\Column(length: 5)]
     #[NotBlank(message: 'Le code postal est obligatoire.')]
     #[Length (max: 5, maxMessage: 'Le code postal ne peut pas dépasser {{ limit }} caractères.')]
-    #[Unique]
     private ?string $codePostal = null;
 
     #[ORM\OneToMany(mappedBy: "ville", targetEntity: Lieu::class)]

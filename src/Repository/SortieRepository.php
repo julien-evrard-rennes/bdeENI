@@ -32,7 +32,6 @@ class SortieRepository extends ServiceEntityRepository
        dump($sortie);
     dump($utilisateur);
 
-
        if ($sortie->getCampus()) {
            dump('Campus');
               $qb->andWhere('s.campus = :campus')
@@ -63,6 +62,11 @@ class SortieRepository extends ServiceEntityRepository
                  ->andWhere('p != :utilisateur')
                  ->setParameter('utilisateur', $utilisateur->getId());
        }
+       if(!$anciennete) {
+           $qb->join('s.etat', 'e')
+               ->andWhere("e.libelle NOT LIKE 'Historisé'");
+       }
+
        if($anciennete) {
            $oneMonthAgo = (new \DateTimeImmutable())->modify('-1 month');
 
@@ -111,7 +115,7 @@ class SortieRepository extends ServiceEntityRepository
     {
             $qb = $this->createQueryBuilder('s')
                 ->join('s.etat', 'e')
-                ->andWhere("e.libelle NOT LIKE 'His%'");
+                ->andWhere("e.libelle NOT LIKE 'Historisé'");
              return $qb->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult();
