@@ -80,9 +80,9 @@
                         <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}"
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}
-                    {% if app.user.role == 'ROLE_ADMIN' %}
-                        <a href="{{ path('sortie_supprimer', {'id': sortie.id}) }}"
-                           onclick="return confirm('Voulez-vous vraiment supprimer la sortie {{ sortie.nom }} ?')">Supprimer</a>
+                    {% if app.user.role == 'ROLE_ADMIN' and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée') %}
+                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}"
+                           onclick="return confirm('Voulez-vous vraiment annuler la sortie {{ sortie.nom }} ?')">Annuler</a>
                     {% endif %}
                 </td>
         </tr>

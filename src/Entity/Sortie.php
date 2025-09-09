@@ -43,6 +43,7 @@ class Sortie
     private ?Campus $campus = null;
 
     #[ORM\ManyToOne(inversedBy:"Sortie")]
+    #[ORM\JoinColumn(name : "organisateur_id", referencedColumnName : "id", onDelete : "CASCADE")]
     private ?Participant $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: "sorties")]

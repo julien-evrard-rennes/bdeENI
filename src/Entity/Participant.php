@@ -42,7 +42,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $actif = null;
 
-    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: "organisateur")]
+    #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: "organisateur",orphanRemoval: true,cascade: ["remove"])]
     private ?Collection $sortie;
 
     public function getSortieOrga(): Collection

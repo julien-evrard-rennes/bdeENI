@@ -43,14 +43,14 @@ final class SortieController extends AbstractController
             $sorties = $hasCriteria
                 ? $sortieRepository->rechercheAvancee($critere, $this->getUser())
                 : $sortieRepository->rechercheBasique();
-
-        } else {
-            $sorties = $sortieRepository->rechercheBasique();
         }
-        return $this->render('sortie/accueil.html.twig',[
-            'sortieForm' => $sortieForm->createView(),
-            'sorties'=> $sorties,
-        ]);
+        else {
+                $sorties = $sortieRepository->rechercheBasique();
+        }
+            return $this->render('sortie/accueil.html.twig', [
+                'sortieForm' => $sortieForm->createView(),
+                'sorties' => $sorties,
+            ]);
     }
 
     #[Route('/creer', name: 'sortie_creer')]
