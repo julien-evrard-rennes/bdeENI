@@ -118,7 +118,7 @@ class MainController extends AbstractController
     #[Route('/campus', name: 'listeCampus')]
     public function listeCampus (CampusRepository $campusRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $campusListe     = $campusRepository->findAll();
+        $campusListe = $campusRepository->findBy([], ['nom' => 'ASC']);
         $campus = new Campus();
         $form = $this->createForm(CampusCreationForm::class, $campus);
         $form->handleRequest($request);
@@ -128,10 +128,13 @@ class MainController extends AbstractController
                 $this->addFlash('danger', 'Ce campus existe déjà !');
                 return $this->redirectToRoute('listeCampus');
             }
-        $campus->setNom($nom);
-        $entityManager->persist($campus);
-        $entityManager->flush();
+            $campus->setNom($nom);
+            $entityManager->persist($campus);
+            $entityManager->flush();
             $this->addFlash('success', 'Campus créé avec succès !');
+
+            return $this->redirectToRoute('listeCampus');
+
         }
         return $this->render("admin/listeCampus.html.twig", [
             'campusListe' => $campusListe,
@@ -142,7 +145,7 @@ class MainController extends AbstractController
     #[Route('/villes', name: 'listeVilles')]
     public function listeVilles (VilleRepository $villeRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $villeListe = $villeRepository->findAll();
+        $villeListe = $villeRepository->findBy([], ['nom' => 'ASC']);
         $ville = new Ville();
         $form = $this->createForm(VilleCreationForm::class, $ville);
         $form->handleRequest($request);
@@ -158,6 +161,9 @@ class MainController extends AbstractController
             $entityManager->persist($ville);
             $entityManager->flush();
             $this->addFlash('success', 'Ville créée avec succès !');
+
+            return $this->redirectToRoute('listeVilles');
+
         }
         return $this->render("admin/villeliste.html.twig", [
             'villeListe' => $villeListe,
