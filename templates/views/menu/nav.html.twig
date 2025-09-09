@@ -2,7 +2,16 @@
     <div class="logoslogan">
         <img src="{{ asset('img/logo.jpg') }}" alt="Logo de l'ENI">
         <h1>BDE de l'ENI</h1>
-        <p>(Si si, on existe...)</p>
+        <p>{{ random(['si, si... on existe',
+                'Si vous croyez en nous, on apparaîtra',
+                'Encore plus opaque que la fondation SCP',
+                'Uniquement disponible sur le campus de Morlaix',
+                '4eme étage, Campus de Rennes',
+                'Dernière activité : juin 2008',
+                'Notre président est mort de vieillesse',
+                'Il reste des handspinners avec notre logo ! '
+            ]) }}</p>
+
     </div>
 
     {% for label, messages in app.flashes %}

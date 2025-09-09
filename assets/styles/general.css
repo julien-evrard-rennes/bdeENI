@@ -77,8 +77,10 @@ main h1 {
 
 main div.infos{
 	display: flex;
-	flex-direction: row-reverse;
+	flex-direction: column-reverse;
 	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-content: flex-end;
 }
 
 /* affichage des tableaux dans le main */
@@ -128,7 +130,14 @@ background-color: #1a7171;
 }
 
 
-/* Les détails */
+/* Les détails et formulaires */
+
+textarea {
+	margin: 5px -5px;
+	display: block;
+	height: 80px;
+	width: 350px;
+}
 
 div.details {
 	display: flex;

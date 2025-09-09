@@ -29,7 +29,6 @@ class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $userPasswordHasher
     ) {
-        $participant = new Participant();
         $form = $this->createForm(\App\Form\CreerUtilisateurType::class);
 
         $form->handleRequest($request);

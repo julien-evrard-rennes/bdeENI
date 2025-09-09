@@ -1,8 +1,6 @@
 {%  extends 'base.html.twig' %}
 
 {%  block body %}
-
-    <h1>RECHERCHER UNE SORTIE </h1>
     <div class="infos">
         {%  if app.user %}
             <p>Tu es un {{ app.user.role }}</p>
@@ -10,6 +8,8 @@
         {%  endif %}
         <p> Date du jour : {{ maintenant | date("d/m/Y") }}</p>
     </div>
+
+    <h1>RECHERCHER UNE SORTIE </h1>
 
     <div class="formulaire">
 
@@ -77,7 +77,7 @@
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}
                     {% if app.user == sortie.organisateur and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée') and sortie.dateHeureDebut > maintenant or app.user.role == 'ROLE_ADMIN'  and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée')  and sortie.dateHeureDebut > maintenant %}
-                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" onclick="return confirm('Voulez-vous vraiment annuler la sortie {{ sortie.nom }} ?')">Annuler</a>
+                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                     {% endif %}
                 </td>
         </tr>

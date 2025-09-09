@@ -2,12 +2,17 @@
 
 
 {% block body %}
-    <h1>Annulation de "{{ sortie.nom}}"</h1>
+    <h1>Annuler une sortie </h1>
+
+    <p><label>Nom de la sortie :</label> {{ sortie.nom }}</p>
+    <p><label>Date de la sortie :</label> {{ sortie.dateHeureDebut | date("d/m/Y ") }} à {{ sortie.dateHeureDebut | date("H:i") }}</p>
+    <p><label>Campus :</label> {{ sortie.campus.nom }}</p>
+    <p><label>Lieu :</label>{{ sortie.lieu.rue}} {{ sortie.lieu.ville.codePostal}} {{ sortie.lieu.ville.nom }}</p>
 
     {{ form_start (sortieAnnulationForm) }}
     {{ form_widget (sortieAnnulationForm) }}
 
-        <button>{% block button %}Annuler la sortie{% endblock %}</button>
+        <button onclick="return confirm('Voulez-vous vraiment annuler la sortie {{ sortie.nom }} ?')">{% block button %}Annuler la sortie{% endblock %}</button>
         <a class="bouton" href="{{ path('accueil') }}">Retour</a>
 
     {{ form_end (sortieAnnulationForm) }}
