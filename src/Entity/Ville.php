@@ -23,12 +23,10 @@ use Symfony\Component\Validator\Constraints\Unique;
     ]
 )]
 #[UniqueEntity(
-    fields: ['nom', 'codePostal'],
-    message: 'Une ville avec ce nom et ce code postal existe déjà.',
+    fields: ['codePostal'],
+    message: 'Une ville avec ce code postal existe déjà.',
     errorPath: 'nom'
 )]
-
-
 class Ville
 {
     #[ORM\Id]
