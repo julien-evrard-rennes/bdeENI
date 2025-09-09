@@ -46,12 +46,10 @@ class Sortie
     private ?Lieu $lieu = null;
 
     #[ORM\ManyToOne(inversedBy:"Sortie")]
-    #[NotBlank(message: 'Le campus est obligatoire.')]
     private ?Campus $campus = null;
 
     #[ORM\ManyToOne(inversedBy:"Sortie")]
     #[ORM\JoinColumn(name : "organisateur_id", referencedColumnName : "id", onDelete : "CASCADE")]
-    #[NotBlank(message: 'L\'organisateur est obligatoire.')]
     private ?Participant $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: "sorties")]
@@ -235,6 +233,8 @@ class Sortie
     {
         $this->organisateur = $organisateur;
     }
+
+
 
     /**
      * @return Collection<int, Etat>

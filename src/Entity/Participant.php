@@ -31,6 +31,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     #[ORM\Column]
+    #[NotBlank(message: 'Le téléphone est obligatoire.')]
     private ?int $telephone = null;
 
     #[ORM\Column(length: 50)]
@@ -42,7 +43,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $photo = null;
 
     #[ORM\Column]
-    #[NotBlank(message: 'Le mot de passe est obligatoire.')]
     #[Length (max: 255, maxMessage: 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $motPasse = null;
 

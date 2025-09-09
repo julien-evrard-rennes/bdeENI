@@ -64,12 +64,17 @@ final class SortieController extends AbstractController
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieDetailsType::class, $sortie);
         $sortieForm->handleRequest($request);
+            dump($sortieForm->getData());
+            dump($this->getUser());
+            $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
+            $sortie->setOrganisateur($this->getUser());
+            dump($sortie);
+
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-
-            $sortie = $sortieForm->getData();
             $sortie->setOrganisateur($this->getUser());
             $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
+            $sortie = $sortieForm->getData();
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Créée']));
             $publication = $sortieForm->get('publication')->getData();
             if

@@ -52,10 +52,6 @@ class CreerUtilisateurType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe :'],
                 'second_options' => ['label' => 'Confirmer le mot de passe :'],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                'constraints' => [
-                    // S’applique uniquement si non vide
-                    new Length(min: 8, minMessage: 'Au moins 8 caractères.'),
-                ],
             ])
             ->add('campus', EntityType::class, [
                 'label' => 'Campus :',

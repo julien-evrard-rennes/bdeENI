@@ -13,6 +13,22 @@ use Symfony\Component\Validator\Constraints\Unique;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
 #[UniqueEntity(fields: ['nom'], message: 'Ce lieu existe déjà.')]
+#[ORM\Table(
+    name: 'ville',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: 'uniq_ville_nom_code_postal',
+            columns: ['nom', 'code_postal']
+        )
+    ]
+)]
+#[UniqueEntity(
+    fields: ['nom', 'codePostal'],
+    message: 'Une ville avec ce nom et ce code postal existe déjà.',
+    errorPath: 'nom'
+)]
+
+
 class Ville
 {
     #[ORM\Id]

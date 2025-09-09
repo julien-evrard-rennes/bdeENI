@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\CreerUtilisateurType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +30,7 @@ class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $userPasswordHasher
     ) {
-        $form = $this->createForm(\App\Form\CreerUtilisateurType::class);
+        $form = $this->createForm(CreerUtilisateurType::class);
 
         $form->handleRequest($request);
 
