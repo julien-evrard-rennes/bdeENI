@@ -6,8 +6,13 @@ use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: LieuRepository::class)]
+#[UniqueEntity(fields: ['nom'], message: 'Ce lieu existe déjà.')]
+
 class Lieu
 {
     #[ORM\Id]
@@ -15,10 +20,14 @@ class Lieu
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(unique: true)]
+    #[NotBlank(message: 'Le nom est obligatoire.')]
+    #[length (max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: 'La rue est obligatoire.')]
+    #[length (max: 255, maxMessage: 'La rue ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $rue = null;
 
     #[ORM\Column(nullable: true)]
@@ -28,6 +37,7 @@ class Lieu
     private ?float $longitude = null;
 
     #[ORM\ManyToOne(inversedBy: "lieu")]
+
     private ?Ville $ville = null;
 
     #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: "lieu")]

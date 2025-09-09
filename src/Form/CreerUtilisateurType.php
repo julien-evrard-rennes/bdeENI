@@ -29,37 +29,20 @@ class CreerUtilisateurType extends AbstractType
         $builder
             ->add('Mail', EmailType::class, [
                 'label' => 'Email :',
-                'trim' => true,
-                'constraints' => [
-                    new NotBlank(message: 'Veuillez saisir un email.'),
-                    new Email(message: 'Email invalide.'),
-                ],
+                'trim' => true
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom :',
-                'trim' => true,
-                'constraints' => [
-                    new NotBlank(message: 'Veuillez saisir un nom.'),
-                    new Length(max: 180),
-                ],
+                'trim' => true
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom :',
-                'trim' => true,
-                'constraints' => [
-                    new NotBlank(message: 'Veuillez saisir un prénom.'),
-                    new Length(max: 180),
-                ],
+                'trim' => true
             ])
             ->add('telephone', TelType::class, [
                 'label' => 'Téléphone :',
                 'trim' => true,
-                'required' => false,
-                'constraints' => [
-                    new Length(max: 30),
-                    // À adapter à votre format
-                    // new Assert\Regex(pattern: '/^\+?[0-9 .\-()]{7,}$/', message: 'Téléphone invalide.'),
-                ],
+                'required' => false
             ])
             // Mot de passe en double (non mappé) pour la confirmation
             ->add('plainPassword', RepeatedType::class, [

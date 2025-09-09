@@ -6,8 +6,13 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Unique;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
+#[UniqueEntity(fields: ['nom'], message: 'Ce lieu existe déjà.')]
 class Ville
 {
     #[ORM\Id]
@@ -16,9 +21,15 @@ class Ville
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: 'Le nom est obligatoire.')]
+    #[Length (max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
+    #[Unique]
     private ?string $nom = null;
 
     #[ORM\Column(length: 5)]
+    #[NotBlank(message: 'Le code postal est obligatoire.')]
+    #[Length (max: 5, maxMessage: 'Le code postal ne peut pas dépasser {{ limit }} caractères.')]
+    #[Unique]
     private ?string $codePostal = null;
 
     #[ORM\OneToMany(mappedBy: "ville", targetEntity: Lieu::class)]

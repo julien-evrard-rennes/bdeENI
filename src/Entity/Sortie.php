@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
 {
@@ -16,9 +19,12 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 55)]
+    #[NotBlank(message: 'Le nom de la sortie est obligatoire.')]
+    #[Length(max: 55, maxMessage: 'Le nom de la sortie ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column]
+    #[NotBlank(message: 'La date et l\'heure de la sortie sont obligatoires.')]
     private ?\DateTime $dateHeureDebut = null;
 
     #[ORM\Column(nullable: true)]
@@ -40,10 +46,12 @@ class Sortie
     private ?Lieu $lieu = null;
 
     #[ORM\ManyToOne(inversedBy:"Sortie")]
+    #[NotBlank(message: 'Le campus est obligatoire.')]
     private ?Campus $campus = null;
 
     #[ORM\ManyToOne(inversedBy:"Sortie")]
     #[ORM\JoinColumn(name : "organisateur_id", referencedColumnName : "id", onDelete : "CASCADE")]
+    #[NotBlank(message: 'L\'organisateur est obligatoire.')]
     private ?Participant $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: Participant::class, inversedBy: "sorties")]

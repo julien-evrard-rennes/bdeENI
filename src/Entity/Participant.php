@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['mail'])]
@@ -19,21 +21,29 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: 'Le nom est obligatoire.')]
+    #[Length (max: 255, maxMessage: 'Le nom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: 'Le prénom est obligatoire.')]
+    #[Length (max: 255, maxMessage: 'Le prénom ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $prenom = null;
 
     #[ORM\Column]
     private ?int $telephone = null;
 
     #[ORM\Column(length: 50)]
+    #[NotBlank(message: 'L\'email est obligatoire.')]
+    #[Length (max: 50, maxMessage: 'L\'email ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $mail = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: 'Le mot de passe est obligatoire.')]
+    #[Length (max: 255, maxMessage: 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $motPasse = null;
 
     #[ORM\Column(length: 50)]
@@ -59,6 +69,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #[ORM\ManyToOne(inversedBy: "campus")]
+    #[NotBlank(message: 'Le campus est obligatoire.')]
     private ?Campus $campus = null;
 
     #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: "participants")]

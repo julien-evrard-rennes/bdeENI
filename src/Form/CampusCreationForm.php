@@ -16,10 +16,7 @@ class CampusCreationForm extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom du Campus :',
                 'trim' => true,
-                'constraints' => [
-                    new NotBlank(message: 'Veuillez saisir un nom.'),
-                    new Length(max: 180),
-                ],
+                'required' => true,
             ]);
 
     }

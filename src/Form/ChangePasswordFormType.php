@@ -26,9 +26,6 @@ class ChangePasswordFormType extends AbstractType
                 ],
                 'first_options' => [
                     'constraints' => [
-                        new NotBlank([
-                            'message' => 'Entrez un mot de passe',
-                        ]),
                         new Length([
                             'min' => 8,
                             'minMessage' => 'Votre mot de passe doit faire {{ limit }} lettres au minimum',
@@ -44,8 +41,6 @@ class ChangePasswordFormType extends AbstractType
                     'label' => 'Répétez le mot de passe',
                 ],
                 'invalid_message' => 'Les deux champs doivent être identiques.',
-                // Instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
             ])
         ;

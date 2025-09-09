@@ -6,8 +6,12 @@ use App\Repository\EtatRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: EtatRepository::class)]
+#[UniqueEntity(fields: ['libelle'], message: 'Cet état existe déjà.')]
 class Etat
 {
     #[ORM\Id]
@@ -15,7 +19,9 @@ class Etat
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(unique: true)]
+    #[NotBlank(message: 'Le libelle est obligatoire.')]
+    #[Length (max: 255, maxMessage: 'Le libelle ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: "Etat")]
