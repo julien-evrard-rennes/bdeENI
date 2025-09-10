@@ -4,10 +4,17 @@
 
     <h1>Création du profil</h1>
 
+    <a class="bouton" href="{{ path('app_import_participant') }}">Importer via une fiche CSV</a>
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button>Valider</button>
+    <a class="bouton" href="{{ path('accueil') }}">Revenir à l'accueil</a>
     {{ form_end(form) }}
+
+
+
+
 
 {% endblock %}
 

@@ -48,7 +48,7 @@
         {% else %}
             <li><a href="{{ path('connex') }}">Se connecter</a></li>
         {% endif %}
-        {% if app.user %}
+        {% if app.user and app.user.photo %}
         <a href="{{ path('profil', {'id' : app.user.id}) }}"><img class="profil" src="{{ asset('photo/profil/' ~ app.user.photo) }}" alt="photo de profil"></a>
         {% endif %}
     </ul>

@@ -16,11 +16,16 @@
     <div class="formulaire">
         <h2>Mes informations personnelles :</h2>
         <p>email : {{ participant.mail }}</p>
+        {% if participant.pseudo %}
+        <p>pseudo : {{ participant.pseudo }}</p>
+        {%  endif %}
         <p>nom : {{ participant.nom }}</p>
         <p>prénom : {{ participant.prenom }}</p>
         <p>téléphone : {{ participant.telephone }}</p>
         <p>campus : {{ participant.nom }}</p>
+        {% if participant.photo %}
         <img src="{{ asset('photo/profil/' ~ participant.photo) }}" width="100px" alt="photo de profil">
+        {% endif %}
 
 {%  if app.user.id == participant.id %}
         <button><a href="{{ path('profilUpdate') }}">Mettre à jour</a></button>

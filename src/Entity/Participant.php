@@ -75,6 +75,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: "participants")]
     private Collection $sorties;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pseudo = null;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -296,6 +299,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
                     $sortie->setParticipants(null);
                 }
             }
+
+            return $this;
+        }
+
+        public function getPseudo(): ?string
+        {
+            return $this->pseudo;
+        }
+
+        public function setPseudo(?string $pseudo): static
+        {
+            $this->pseudo = $pseudo;
 
             return $this;
         }

@@ -1,0 +1,17 @@
+{% extends 'base' %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>Import de participants</h1>
+
+        {{ form_start(form) }}
+        {{ form_row(form.csvFile) }}
+        <button type="submit" class="btn btn-primary">Importer</button>
+        <a class="bouton" href="{{ path('utilisateur_creer') }}">Retour</a>
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+

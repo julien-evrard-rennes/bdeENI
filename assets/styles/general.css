@@ -1,10 +1,25 @@
 @charset "UTF-8";
 
+h2 {
+	margin: 10px 0;}
 
-/* nav ul { */
-/*   display: flex; */
-/*   justify-content: space-between; */
-/* } */
+* {
+	margin: 2px;
+	padding: 1px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Header */
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #e2e3f7;
+	padding: 20px 50px;
+	box-shadow: 0 1px 8px #a8b0d1;
+}
+
 header li {
 	list-style: none;
 	display: inline-block;
@@ -22,43 +37,14 @@ header img.profil {
 	object-fit: cover;
 	margin-top: 20px;
 	border-radius: 50% 50% 50% 50%;
-	border: 2px solid #2240a8;
+	border: 2px solid #1c3691;
+	transition: all 0.3s ease 0s;
 
 }
 
-h2 {
-	margin: 10px 0;}
+header img.profil:hover {
+	border: 2px solid rgb(2, 105, 156);
 
-* {
-	margin: 2px;
-	padding: 1px;
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Header */
-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background-color: #e2e3f7;
-	padding: 20px 50px;
-	box-shadow: 0 1px 8px #a8b0d1;
-}
-
-label {
-	font-weight: bold;
-}
-
-#nav {
-	flex-direction: row-reverse;
-	margin-right: auto;
-	font-size: 1.1em;
-}
-
-header li {
-	list-style: none;
-	display: inline-block;
-	padding: 0 20px;
 }
 
 header a {
@@ -70,6 +56,19 @@ header a {
 
 header a:hover {
 	color: rgb(2, 105, 156);
+}
+
+
+
+
+label {
+	font-weight: bold;
+}
+
+#nav {
+	flex-direction: row-reverse;
+	margin-right: auto;
+	font-size: 1.1em;
 }
 
 main {
@@ -138,6 +137,20 @@ main table th {
 
 main table a:hover, main table a:active {
 background-color: #1a7171;
+}
+
+/* Formulaire de connexion */
+
+div#connexion {
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+div#connexion label {
+	margin: 10px;
+	font-weight: bold;
 }
 
 
