@@ -237,7 +237,6 @@ div.organisation, div.lieu {
 
 
 button {
-	margin-left: auto;
 	margin-top: 10px;
 	margin-bottom: 5px; padding : 8px 16px;
 	border: 0.3px solid;
@@ -328,7 +327,6 @@ footer {
 	}
 
 	button {
-		margin-left: auto;
 		margin-top: 2px;
 		margin-bottom: 3px;
 		padding: 3px 3px;
@@ -402,7 +400,6 @@ footer {
 	}
 
 	button {
-		margin-left: auto;
 		margin-top: 2px;
 		margin-bottom: 3px;
 		padding: 3px 3px;
