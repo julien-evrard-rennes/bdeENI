@@ -42,7 +42,9 @@ class AdminController extends AbstractController
             }
             $participant = $form->getData();
 
+
             $image = $form->get('photo')->getData();
+            if (!empty($image)) {
             /**
              * @var UploadedFile $image
              */
@@ -50,6 +52,7 @@ class AdminController extends AbstractController
             $image->move($this->getParameter('photo_directory'), $newFileName);
 
             $participant->setPhoto($newFileName);
+            }
 
             $entityManager->persist($participant);
             $entityManager->flush();

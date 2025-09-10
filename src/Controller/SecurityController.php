@@ -24,6 +24,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
+            'error_message' => $error ? 'Identifiant ou mot de passe incorrect' : null,
         ]);
         //}
         //else {

@@ -6,7 +6,7 @@
     <form method="post" action="{{ path('connex') }}">
         {% if error %}
             <div class="alert alert-danger">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
+                {{ error_message }}
             </div>
         {% endif %}
 

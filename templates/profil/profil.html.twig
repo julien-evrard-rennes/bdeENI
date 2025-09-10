@@ -22,14 +22,15 @@
         <p>nom : {{ participant.nom }}</p>
         <p>prénom : {{ participant.prenom }}</p>
         <p>téléphone : {{ participant.telephone }}</p>
-        <p>campus : {{ participant.nom }}</p>
+        <p>campus : {{ participant.campus.nom }}</p>
         {% if participant.photo %}
         <img src="{{ asset('photo/profil/' ~ participant.photo) }}" width="100px" alt="photo de profil">
         {% endif %}
 
-{%  if app.user.id == participant.id %}
+{%  if app.user == participant %}
         <button><a href="{{ path('profilUpdate') }}">Mettre à jour</a></button>
 {% endif %}
+        <button><a href="{{ path('accueil') }}">Retour à l'accueil</a></button>
 
     </div>
 
