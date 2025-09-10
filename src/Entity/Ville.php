@@ -41,10 +41,10 @@ class Ville
 
     #[ORM\Column(length: 5)]
     #[NotBlank(message: 'Le code postal est obligatoire.')]
-    #[Length (max: 5, maxMessage: 'Le code postal ne peut pas dépasser {{ limit }} caractères.')]
+    #[Length (min:5, max: 5, maxMessage: 'Le code postal ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $codePostal = null;
 
-    #[ORM\OneToMany(mappedBy: "ville", targetEntity: Lieu::class)]
+    #[ORM\OneToMany(targetEntity: Lieu::class, mappedBy: "ville")]
     private ?Collection $lieu;
 
     public function __construct()
