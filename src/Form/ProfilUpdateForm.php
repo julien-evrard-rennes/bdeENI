@@ -48,6 +48,13 @@ class ProfilUpdateForm extends AbstractType
                     new Length(max: 180),
                 ],
             ])
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudonyme :',
+                'required' => false,
+                'constraints' => [
+                    new Length(max: 180),
+                ],
+            ])
             ->add('telephone', TelType::class, [
                 'label' => 'Téléphone :',
                 'trim' => true,

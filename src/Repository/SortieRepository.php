@@ -58,7 +58,7 @@ class SortieRepository extends ServiceEntityRepository
        }
        if ($nonInscrit) {
                 dump('Non Inscrit');
-              $qb->join('s.participants', 'p')
+              $qb->join('s.participants', 'm')
                  ->andWhere(':utilisateur NOT MEMBER OF s.participants')
                  ->setParameter('utilisateur', $utilisateur->getId());
        }
