@@ -22,7 +22,9 @@
         <p>nom : {{ participant.nom }}</p>
         <p>prénom : {{ participant.prenom }}</p>
         <p>téléphone : {{ participant.telephone }}</p>
+        {% if participant.campus %}
         <p>campus : {{ participant.campus.nom }}</p>
+        {%  endif %}
         {% if participant.photo %}
         <img src="{{ asset('photo/profil/' ~ participant.photo) }}" width="100px" alt="photo de profil">
         {% endif %}
