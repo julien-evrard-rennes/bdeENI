@@ -50,15 +50,24 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     role_hierarchy:
-      ROLE_ADMIN: ROLE_ADMIN
-      ROLE_USER: ROLE_USER
+      ROLE_USER: [ ROLE_USER ]
+      ROLE_ADMIN: [ ROLE_ADMIN ]
 
 
     access_control:
             - { path: ^/reset-password, roles: PUBLIC_ACCESS } # page de reset password
             - { path: ^/connex, roles: PUBLIC_ACCESS }  # page de login (votre route "connex")
             - { path: ^/logout, roles: PUBLIC_ACCESS }
-            - { path: ^/, roles: ROLE_USER } # toutes les autres pages
+            - { path: ^/utilisateurs, roles: ROLE_ADMIN }
+            - { path: ^/creer, roles: ROLE_ADMIN }
+            - { path: ^/modifier, roles: ROLE_ADMIN }
+            - { path: ^/supprimer, roles: ROLE_ADMIN }
+            - { path: ^/activer, roles: ROLE_ADMIN }
+            - { path: ^/desactiver, roles: ROLE_ADMIN }
+            - { path: ^/villes, roles: ROLE_ADMIN }
+            - { path: ^/campus , roles: ROLE_ADMIN }
+            - { path: ^/lieux, roles: ROLE_ADMIN }
+            - { path: ^/, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

@@ -41,9 +41,6 @@ class Sortie
 
     #[ORM\Column(length: 4)]
     #[NotBlank(message: 'Le nombre de places disponibles est obligatoire')]
-    #[Length(
-        max: 4,
-        maxMessage: 'Vous ne pouvez pas dépasser les {{ limit }} participants.')]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
