@@ -173,16 +173,21 @@ div.details {
 
 }
 
+/* Affichage des infos */
+
 div.annulation {
+	border-radius: 15px;
 	background-color: #edeaea;
 	color: #6f6767;
 }
 
 div.annulation div.lieu, div.annulation div.organisation {
+	border-radius: 15px;
 	background-color: #edeaea;
 }
 
 div.organisation, div.lieu {
+	border-radius: 15px;
 	background: #ffe4c470;
 
 }
@@ -237,6 +242,7 @@ div.organisation, div.lieu {
 
 
 button {
+	margin: auto;
 	margin-top: 10px;
 	margin-bottom: 5px; padding : 8px 16px;
 	border: 0.3px solid;
@@ -327,6 +333,7 @@ footer {
 	}
 
 	button {
+		margin: auto;
 		margin-top: 2px;
 		margin-bottom: 3px;
 		padding: 3px 3px;
@@ -399,7 +406,12 @@ footer {
 		width: initial;
 	}
 
+	div.organisation, div.lieu {
+		font-size: small;
+	}
+
 	button {
+		margin: auto;
 		margin-top: 2px;
 		margin-bottom: 3px;
 		padding: 3px 3px;

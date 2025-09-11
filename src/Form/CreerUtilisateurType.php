@@ -29,20 +29,44 @@ class CreerUtilisateurType extends AbstractType
         $builder
             ->add('Mail', EmailType::class, [
                 'label' => 'Email :',
-                'trim' => true
+                'trim' => true,
+                'constraints' => [
+                    new NotBlank(message: 'Veuillez saisir un email.'),
+                    new Email(message: 'Email invalide.'),
+                ],
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom :',
-                'trim' => true
+                'trim' => true,
+                'constraints' => [
+                    new NotBlank(message: 'Veuillez saisir un nom.'),
+                    new Length(max: 180),
+                ],
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom :',
-                'trim' => true
+                'trim' => true,
+                'constraints' => [
+                    new NotBlank(message: 'Veuillez saisir un prénom.'),
+                    new Length(max: 180),
+                ],
+            ])
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudonyme :',
+                'required' => false,
+                'constraints' => [
+                    new Length(max: 180),
+                ],
             ])
             ->add('telephone', TelType::class, [
                 'label' => 'Téléphone :',
                 'trim' => true,
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new Length(max: 30),
+                    // À adapter à votre format
+                    // new Assert\Regex(pattern: '/^\+?[0-9 .\-()]{7,}$/', message: 'Téléphone invalide.'),
+                ],
             ])
             // Mot de passe en double (non mappé) pour la confirmation
             ->add('plainPassword', RepeatedType::class, [
@@ -52,6 +76,10 @@ class CreerUtilisateurType extends AbstractType
                 'first_options'  => ['label' => 'Mot de passe :'],
                 'second_options' => ['label' => 'Confirmer le mot de passe :'],
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
+                'constraints' => [
+                    // S’applique uniquement si non vide
+                    new Length(min: 8, minMessage: 'Au moins 8 caractères.'),
+                ],
             ])
             ->add('campus', EntityType::class, [
                 'label' => 'Campus :',
@@ -72,20 +100,19 @@ class CreerUtilisateurType extends AbstractType
                         extensionsMessage: "Les types autorisés sont .png et .jpg"
                     )],
             ])
-
-        ->add('role', ChoiceType::class, [
-        'expanded'=>false,
-        'multiple'=>false,
-        'label' => 'Rôle :',
-        'required' => true,
-        'choices' => [
-            'ROLE_USER' => 'ROLE_USER',
-            'ROLE_ADMIN' =>'ROLE_ADMIN'
-        ],
+            ->add('role', ChoiceType::class, [
+                'expanded' => false,
+                'multiple' => false,
+                'label' => 'Rôle :',
+                'required' => true,
+                'choices' => [
+                    'ROLE_USER' => 'ROLE_USER',
+                    'ROLE_ADMIN' => 'ROLE_ADMIN'
+                ],
             ])
             ->add('actif', ChoiceType::class, [
-                'expanded'=>false,
-                'multiple'=>false,
+                'expanded' => false,
+                'multiple' => false,
                 'label' => 'Actif :',
                 'required' => true,
                 'choices' => [

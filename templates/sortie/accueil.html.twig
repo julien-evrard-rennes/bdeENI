@@ -22,6 +22,11 @@
     </div>
 
     <h2>{{ sorties | length }} sorties trouvées :</h2>
+
+    <button class="afficheOrdi">
+        <a href="{{ path('sortie_creer') }}">Creer une sortie </a>
+    </button>
+
     <table id="tableaudesorties">
         <tr>
             <th>Nom de la sortie</th>
@@ -71,7 +76,7 @@
                         <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}">S'inscrire</a>
                     {%  endif %}
 
-                    {%  if app.user in sortie.participants and (sortie.etat.libelle == 'Ouverte') and sortie.dateLimiteInscription > maintenant %}
+                    {%  if app.user in sortie.participants and (sortie.etat.libelle == 'Ouverte') and sortie.dateHeureDebut > maintenant %}
                         <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}"
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}

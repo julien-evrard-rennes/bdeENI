@@ -28,8 +28,6 @@
     <ul>
             {% if app.user %}
             {% if app.user.role == 'ROLE_USER' %}
-                <li> coucou role user</li>
-
             {% elseif app.user.role == 'ROLE_ADMIN' %}
                 <li><a href="{{ path('listeVilles') }}">Ville</a></li>
                 <li><a href="{{ path('listeCampus') }}">Campus</a></li>
