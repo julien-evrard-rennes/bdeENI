@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -20,9 +21,12 @@ class Sortie
 
     #[ORM\Column(length: 55)]
     #[NotBlank(message: 'Le nom de la sortie est obligatoire.')]
-    #[Length(max: 55, maxMessage: 'Le nom de la sortie ne peut pas dépasser {{ limit }} caractères.')]
+    #[Length(
+        max: 55,
+        maxMessage: 'Le nom de la sortie ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $nom = null;
 
+    #[Assert\GreaterThan('now', message: 'La date de sortie doit être ultérieure à aujourd\'hui')]
     #[ORM\Column]
     #[NotBlank(message: 'La date et l\'heure de la sortie sont obligatoires.')]
     private ?\DateTime $dateHeureDebut = null;
@@ -30,10 +34,16 @@ class Sortie
     #[ORM\Column(nullable: true)]
     private ?int $duree = null;
 
-    #[ORM\Column(nullable: true)]
+
+    #[ORM\Column]
+    #[NotBlank(message: 'Limite d\'inscription doit être obligatoires.')]
     private ?\DateTime $dateLimiteInscription = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(length: 4)]
+    #[NotBlank(message: 'Le nombre de places disponibles est obligatoire')]
+    #[Length(
+        max: 4,
+        maxMessage: 'Vous ne pouvez pas dépasser les {{ limit }} participants.')]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

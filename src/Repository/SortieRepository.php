@@ -74,7 +74,7 @@ class SortieRepository extends ServiceEntityRepository
            $qb->join('s.etat', 'e')
                ->andWhere('s.dateHeureDebut < :oneMonthAgo')
                ->setParameter('oneMonthAgo', $oneMonthAgo)
-               ->andWhere("e.libelle LIKE 'Historisé'");
+               ->orWhere("e.libelle LIKE 'Historisé'");
            $sorties = $qb->getQuery()->getResult();
            dump($sorties);
            foreach ($sorties as $sortie) {
