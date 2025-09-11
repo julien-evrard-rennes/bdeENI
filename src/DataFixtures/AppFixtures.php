@@ -13,6 +13,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use function Symfony\Component\Clock\now;
 
 
 class AppFixtures extends Fixture
@@ -43,7 +44,7 @@ class AppFixtures extends Fixture
     }
     private function addEtats(ObjectManager $manager): void
     {
-     $Etats = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée','Historisé'];
+     $Etats = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée','Historisée'];
 
         foreach ($Etats as $eta) {
             $etat = new Etat();
@@ -112,18 +113,32 @@ class AppFixtures extends Fixture
         $campus = $manager->getRepository(Campus::class)->findAll();
         $participants = $manager->getRepository(Participant::class)->findAll();
         $lieux = $manager->getRepository(Lieu::class)->findAll();
+        $SortieNames = ['Randonnée en montagne', 'Visite de musée', 'Atelier de cuisine', 'Soirée karaoké', 'Tournoi de poker', 'Journée plage', 'Excursion en bateau', 'Séance de yoga', 'Balade à vélo', 'Pique-nique au parc', 'Chasse au trésor', 'Atelier peinture', 'Cours de danse', 'Soirée cinéma en plein air', 'Dégustation de vins', 'Atelier poterie', 'Randonnée urbaine', 'Visite de château', 'Atelier photographie', 'Soirée jeux de société', 'Sortie au bar'];
+        $SortieDesc = ['Teambuilding', 'Sortie conviviale entre amis', 'Découverte culturelle', 'Activité sportive', 'Moment de détente', 'Exploration urbaine', 'Aventure en plein air', 'Atelier créatif', 'Soirée festive', 'Rencontre gastronomique'];
 
         $faker = Factory::create('fr_FR');
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 40; $i++) {
             $sortie = new Sortie();
             $sortie->setCampus($faker->randomElement($campus));
-            $sortie->setEtat($faker->randomElement($Etat));
-            $sortie->setNom($faker->realText(20));
+            $sortie->setNom($faker->randomElement($SortieNames));
             $sortie->setLieu($faker->randomElement($lieux));
             $sortie->setDuree($faker->numberBetween(60, 300));
-            $sortie->setDateLimiteInscription($faker->dateTimeBetween('-1 month', '+1 month'));
-            $sortie->setDateHeureDebut($faker->dateTimeBetween('-1 month', '+1 month'));
-            $sortie->setInfosSortie($faker->realText(100));
+            $sortie->setDateHeureDebut($faker->dateTimeBetween('-2 month', '+2 month'));
+            $sortie->setDateLimiteInscription($faker->dateTimeBetween('-2 month', $sortie->getDateHeureDebut()));
+            if ($sortie->getDateLimiteInscription() < now() && $sortie->getDateHeureDebut() > now()) {
+                $sortie->setEtat($manager->getRepository(Etat::class)->findOneBy(['libelle' => 'Cloturée']));
+            } elseif ($sortie->getDateHeureDebut() < now()->modify('+1 month')) {
+                $sortie->setEtat($manager->getRepository(Etat::class)->findOneBy(['libelle' => 'Historisée']));
+            } elseif ($sortie->getDateHeureDebut() < (now()->modify('-2 hours'))) {
+                $sortie->setEtat($manager->getRepository(Etat::class)->findOneBy(['libelle' => 'Passée']));
+            } elseif ($sortie->getDateLimiteInscription() >= now() && $sortie->getDateHeureDebut() > now()) {
+                $sortie->setEtat($manager->getRepository(Etat::class)->findOneBy(['libelle' => 'Ouverte']));
+            } elseif ($sortie->getDateHeureDebut() <= now() && $sortie->getDateHeureDebut() >= (new \DateTime())->modify('-2 hours')) {
+                $sortie->setEtat($manager->getRepository(Etat::class)->findOneBy(['libelle' => 'Activité en cours']));
+            } else {
+                $sortie->setEtat($faker->randomElement($Etat));
+            }
+            $sortie->setInfosSortie($faker->randomElement($SortieDesc));
             $sortie->setNbInscriptionsMax($faker->numberBetween(5, 20));
             $sortie->setOrganisateur($faker->randomElement($participants));
 
@@ -168,6 +183,20 @@ class AppFixtures extends Fixture
 
         $participant->setMotPasse($hashed);
 
+        $manager->persist($participant);
+        $manager->flush();
+        $participant = new participant();
+        $participant->setMail("trotin.kelan2025@campus-eni.fr");
+        $participant->setRole("ROLE_USER");
+        $participant->setActif(true);
+        $participant->setCampus($campus[0]);
+        $participant->setNom("Trotin");
+        $participant->setPrenom("Kelan");
+        $participant->setTelephone(0707070707);
+
+        $psw = "Kelan2025!";
+        $hashed = $this->passwordHasher->hashPassword($participant, $psw);
+        $participant->setMotPasse($hashed);
         $manager->persist($participant);
         $manager->flush();
     }

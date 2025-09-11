@@ -29,60 +29,51 @@ class SortieRepository extends ServiceEntityRepository
        $organisateurPresent = $sortie->getOrganisateurPresent();
        $inscrit = $sortie->getInscrit();
        $nonInscrit = $sortie->getNonInscrit();
-       dump($sortie);
-    dump($utilisateur);
 
        if ($sortie->getCampus()) {
-           dump('Campus');
               $qb->andWhere('s.campus = :campus')
                  ->setParameter('campus', $sortie->getCampus());
 
        }
        if ($sortie->getnom()) {
-           dump('Nom');
            $motCle = $sortie->getNom();
            $qb->andWhere('s.nom LIKE :motCle')
               ->setParameter('motCle', '%' . $motCle . '%');
        }
        if ($dateDebut && $dateFin) {
-              dump('Date');
            $qb->andWhere('s.dateHeureDebut >= :dateDebut AND s.dateHeureDebut <= :dateFin')
               ->setParameter('dateDebut', $dateDebut)
              ->setParameter('dateFin', $dateFin);
        }
-       if ($inscrit) {
-                dump('Inscrit');
+       if($inscrit && $nonInscrit) {
+              $qb->join('s.participants', 'p')
+                ->andWhere(':utilisateur MEMBER OF s.participants OR :utilisateur NOT MEMBER OF s.participants')
+                ->setParameter('utilisateur', $utilisateur->getId());
+       }
+       elseif ($inscrit) {
               $qb->join('s.participants', 'p')
                 ->andWhere(':utilisateur MEMBER OF s.participants')
                 ->setParameter('utilisateur', $utilisateur->getId());
        }
-       if ($nonInscrit) {
-                dump('Non Inscrit');
+       elseif ($nonInscrit) {
               $qb->join('s.participants', 'm')
                  ->andWhere(':utilisateur NOT MEMBER OF s.participants')
                  ->setParameter('utilisateur', $utilisateur->getId());
        }
        if(!$anciennete) {
            $qb->join('s.etat', 'e')
-               ->andWhere("e.libelle NOT LIKE 'Historisé'");
+               ->andWhere("e.libelle NOT LIKE 'Historisée'");
        }
 
        if($anciennete) {
            $oneMonthAgo = (new \DateTimeImmutable())->modify('-1 month');
 
-           dump('Anciennete');
            $qb->join('s.etat', 'e')
-               ->andWhere('s.dateHeureDebut < :oneMonthAgo')
-               ->setParameter('oneMonthAgo', $oneMonthAgo)
-               ->andWhere("e.libelle LIKE 'Historisé'");
+               ->andWhere("e.libelle LIKE 'Historisée'");
            $sorties = $qb->getQuery()->getResult();
-           dump($sorties);
            foreach ($sorties as $sortie) {
-               if ($sortie->getEtat()->getLibelle() === 'Historisé') {
-                   dump($sortie);
-               }
-               else {
-               $sortie->setEtat($this->getEntityManager()->getRepository('App\Entity\Etat')->findOneBy(['libelle' => 'Historisé']));
+               if ($sortie->getEtat()->getLibelle() != 'Historisée') {
+               $sortie->setEtat($this->getEntityManager()->getRepository('App\Entity\Etat')->findOneBy(['libelle' => 'Historisée']));
                $this->getEntityManager()->persist($sortie);
                $this->getEntityManager()->flush();
                }
@@ -90,13 +81,10 @@ class SortieRepository extends ServiceEntityRepository
        }
 
        if ($organisateurPresent) {
-                dump('Organisateur');
               $qb ->join('s.organisateur', 'o')
                   ->andWhere('s.organisateur = :utilisateur')
                  ->setParameter('utilisateur', $utilisateur);
          }
-
-       dump($qb->getQuery()->getSQL());
        return $qb->orderBy('s.dateHeureDebut', 'ASC')
            ->getQuery()
            ->getResult();
@@ -115,7 +103,7 @@ class SortieRepository extends ServiceEntityRepository
     {
             $qb = $this->createQueryBuilder('s')
                 ->join('s.etat', 'e')
-                ->andWhere("e.libelle NOT LIKE 'Historisé'");
+                ->andWhere("e.libelle NOT LIKE 'Historisée'");
              return $qb->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult();
