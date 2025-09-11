@@ -73,7 +73,7 @@ class AppFixtures extends Fixture
             $hashed = $this->passwordHasher->hashPassword($participant, $psw);
 
             $participant->setMotPasse($hashed);
-            $participant->setRole($faker->randomElement(['ROLE_USER','ROLE_ADMIN']));
+            $participant->setRoles(['ROLE_USER']);
             $manager->persist($participant);
         }
         $manager->flush();
@@ -167,11 +167,12 @@ class AppFixtures extends Fixture
 
     private function addPerso(ObjectManager $manager): void
     {
+        $faker = Factory::create('fr_FR');
         $campus = $manager->getRepository(Campus::class)->findAll();
-
         $participant = new participant();
         $participant->setMail("julien.evrard2025@campus-eni.fr");
-        $participant->setRole("ROLE_ADMIN");
+        $roles[] = 'ROLE_USER';
+        $participant->setRoles($roles);
         $participant->setActif(true);
         $participant->setCampus($campus[0]);
         $participant->setNom("Evrard");
@@ -187,7 +188,8 @@ class AppFixtures extends Fixture
         $manager->flush();
         $participant = new participant();
         $participant->setMail("trotin.kelan2025@campus-eni.fr");
-        $participant->setRole("ROLE_USER");
+
+        $participant->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
         $participant->setActif(true);
         $participant->setCampus($campus[0]);
         $participant->setNom("Trotin");

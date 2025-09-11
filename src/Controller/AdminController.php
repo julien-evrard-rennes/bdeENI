@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminController extends AbstractController
 {
@@ -30,6 +31,8 @@ class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $userPasswordHasher
     ) {
+        if ($this->isGranted('ROLE_ADMIN')) {
+
         $form = $this->createForm(CreerUtilisateurType::class);
 
         $form->handleRequest($request);
@@ -66,10 +69,12 @@ class AdminController extends AbstractController
         return $this->render("admin/creer_utilisateur.html.twig",[
             'form' => $form->createView(),
         ]);
+        }
     }
     #[Route('/admin/supprimer/{id}', name: 'supprimer', requirements: ['id' => '\d+'])]
     public function supprimer(int $id, EntityManagerInterface $entityManager,ParticipantRepository $participantRepository)
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
         $participant = $participantRepository->find($id);
         if ($participant) {
             $entityManager->remove($participant);
@@ -77,10 +82,13 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'Utilisateur supprimé avec succès !');
             return $this->redirectToRoute('utilisateurs');
         }
+        }
     }
     #[Route('/desactiver/{id}', name: 'desactiver', requirements: ['id' => '\d+'])]
     public function desactiver(int $id, EntityManagerInterface $entityManager,ParticipantRepository $participantRepository)
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
+
         $participant = $participantRepository->find($id);
         if ($participant) {
             $participant->setActif(false);
@@ -88,16 +96,23 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'Utilisateur désactivé avec succès !');
             return $this->redirectToRoute('utilisateurs');
         }
+        }
     }
     #[Route('/activer/{id}', name: 'activer', requirements: ['id' => '\d+'])]
     public function activer(int $id, ParticipantRepository $participantRepository, EntityManagerInterface $entityManager)
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
+
         $participant = $participantRepository->find($id);
         if ($participant) {
             $participant->setActif(true);
             $entityManager->flush();
             $this->addFlash('success', 'Utilisateur activé avec succès !');
             return $this->redirectToRoute('utilisateurs');
+        }
+        }
+        else {
+            return $this->redirectToRoute('accueil');
         }
     }
 

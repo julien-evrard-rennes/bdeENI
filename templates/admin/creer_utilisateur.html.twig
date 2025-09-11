@@ -1,7 +1,7 @@
 {% extends 'base' %}
 
 {% block body %}
-
+{% if is_granted('ROLE_ADMIN') %}
     <h1>Création du profil</h1>
 
     <a class="bouton" href="{{ path('app_import_participant') }}">Importer via une fiche CSV</a>
@@ -11,10 +11,11 @@
     <button>Valider</button>
     <a class="bouton" href="{{ path('accueil') }}">Revenir à l'accueil</a>
     {{ form_end(form) }}
+{% else %}
+    <h1>Accès refusé</h1>
+    <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
+    <a class="bouton" href="{{ path('accueil') }}">Revenir à l'accueil</a>
 
-
-
-
-
+{% endif %}
 {% endblock %}
 

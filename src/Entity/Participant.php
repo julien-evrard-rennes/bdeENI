@@ -6,6 +6,7 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Length;
@@ -46,8 +47,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[Length (max: 255, maxMessage: 'Le mot de passe ne peut pas dépasser {{ limit }} caractères.')]
     private ?string $motPasse = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $role = null;
+    #[ORM\Column(length: 50, type: 'json')]
+    private array $roles = [];
 
     #[ORM\Column]
     private ?bool $actif = null;
@@ -59,6 +60,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->sortie;
     }
+
+
     public function addSortieOrga(Sortie $sortie): self
     {
         if (!$this->sortie->contains($sortie)) {
@@ -111,6 +114,30 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id;
     }
+
+    public function getRoles(): array
+    {
+        // Toujours au moins ROLE_USER
+        $roles = $this->roles;
+        return array_values(array_unique($roles));
+    }
+
+    public function setRoles(array $roles): static
+    {
+        // Normalise: unique + indices réindexés
+        $this->roles = array_values(array_unique($roles));
+
+        return $this;
+    }
+
+    public function addRole(string $role): static
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+        return $this;
+    }
+
 
     public function getNom(): ?string
     {
@@ -172,17 +199,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
 
     public function isActif(): ?bool
     {
@@ -250,24 +266,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
-    {
-        $roles = $this->role;
-        // guarantee every user at least has ROLE_USER
-        $roles = ['ROLE_USER'];
-
-        return array_unique($roles);
-    }
-
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
 
     /**
      * @see PasswordAuthenticatedUserInterface

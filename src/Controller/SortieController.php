@@ -64,13 +64,8 @@ final class SortieController extends AbstractController
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieDetailsType::class, $sortie);
         $sortieForm->handleRequest($request);
-            dump($sortieForm->getData());
-            dump($this->getUser());
             $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
             $sortie->setOrganisateur($this->getUser());
-            dump($sortie);
-
-
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
             $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
@@ -128,11 +123,11 @@ final class SortieController extends AbstractController
                              EtatRepository $etatRepository,
     ): Response
     {
+        if ($this->getUser() == $sortieRepository->find($id)->getOrganisateur()) {
         $sortie = $sortieRepository->find($id);
         if(!$sortie){
             throw $this->createNotFoundException('La sortie est introuvable !');
         }
-
         $sortieForm = $this->createForm(SortieDetailsType::class, $sortie);
         $sortieForm->handleRequest($request);
 
@@ -161,6 +156,11 @@ final class SortieController extends AbstractController
             'sortie'=> $sortie,
             'sortieDetailsForm' => $sortieForm
         ]);
+        }
+        else {
+            $this->addFlash('error', 'Vous ne pouvez pas modifier une sortie que vous n\'avez pas créée.');
+            return $this->redirectToRoute('accueil');
+        }
     }
 
     #[Route('/annuler/{id}', name: 'sortie_annuler', requirements: ['id' => '\d+'])]
@@ -169,30 +169,38 @@ final class SortieController extends AbstractController
                             SortieRepository $sortieRepository,
                             EtatRepository $etatRepository,
                             EntityManagerInterface $entityManager): Response{
-        $sortie = $sortieRepository->find($id);
-        if(!$sortie){
-            throw $this->createNotFoundException('La sortie est introuvable !');
+
+
+        if ($this->getUser() == $sortieRepository->find($id)->getOrganisateur() || $this->isGranted('ROLE_ADMIN')) {
+            $sortie = $sortieRepository->find($id);
+            if (!$sortie) {
+                throw $this->createNotFoundException('La sortie est introuvable !');
+            }
+            $sortieForm = $this->createForm(SortieAnnulationForm::class, $sortie);
+            $sortieForm->handleRequest($request);
+
+            if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+                $sortie = $sortieForm->getData();
+                $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
+
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+
+                // Ajouter un message flash
+                $this->addFlash("success", 'La sortie "' . $sortie->getNom() . '" a bien été annulée.');
+                return $this->redirectToRoute('accueil');
+
+            }
+
+            return $this->render('sortie/annulation.html.twig', [
+                'sortie' => $sortie,
+                'sortieAnnulationForm' => $sortieForm
+            ]);
         }
-        $sortieForm = $this->createForm(SortieAnnulationForm::class, $sortie);
-        $sortieForm->handleRequest($request);
-
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $sortie = $sortieForm->getData();
-            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
-
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-
-            // Ajouter un message flash
-            $this->addFlash("success", 'La sortie "'.$sortie->getNom().'" a bien été annulée.');
+        else {
+            $this->addFlash('error', 'Vous ne pouvez pas annuler une sortie que vous n\'avez pas créée.');
             return $this->redirectToRoute('accueil');
-
         }
-
-        return $this->render('sortie/annulation.html.twig', [
-            'sortie'=> $sortie,
-            'sortieAnnulationForm' => $sortieForm
-        ]);
     }
 
     #[Route('/inscription/{id}', name: 'sortie_inscription', requirements: ['id' => '\d+'])]
@@ -250,18 +258,23 @@ final class SortieController extends AbstractController
                               EntityManagerInterface $entityManager
     ): Response
     {
-        $sortie = $sortieRepository->find($id);
-        if (!$sortie) {
-            throw $this->createNotFoundException('La sortie est introuvable !');
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $sortie = $sortieRepository->find($id);
+            if (!$sortie) {
+                throw $this->createNotFoundException('La sortie est introuvable !');
+            }
+
+            $entityManager->remove($sortie);
+            $entityManager->flush();
+
+            $this->addFlash("success", 'La sortie "' . $sortie->getNom() . '" a bien été supprimée.');
+
+            return $this->redirectToRoute('accueil');
         }
-
-        $entityManager->remove($sortie);
-        $entityManager->flush();
-
-        $this->addFlash("success", 'La sortie "' . $sortie->getNom() . '" a bien été supprimée.');
-
-        return $this->redirectToRoute('accueil');
-
+        else {
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer une sortie si vous n\'êtes pas administrateur.');
+            return $this->redirectToRoute('accueil');
+        }
     }
 
 

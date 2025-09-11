@@ -1,6 +1,7 @@
 {% extends 'base' %}
 
 {% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
     <table>
         <tr>
             <th>Villes</th>
@@ -21,4 +22,10 @@
     {{ form_widget(form) }}
     <button>Créer</button>
     {{ form_end(form) }}
+    {% else %}
+        <h1>Accès refusé</h1>
+        <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
+        <a class="bouton" href="{{ path('accueil') }}">Revenir à l'accueil</a>
+
+{% endif %}
 {% endblock %}

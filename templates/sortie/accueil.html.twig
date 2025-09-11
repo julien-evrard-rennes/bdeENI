@@ -80,7 +80,7 @@
                         <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}"
                            onclick="return confirm('Voulez-vous vraiment vous désinscrire de la sortie {{ sortie.nom }} ?')">Se désister</a>
                     {%  endif %}
-                    {% if app.user == sortie.organisateur and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée') and sortie.dateHeureDebut > maintenant or app.user.role == 'ROLE_ADMIN'  and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée')  and sortie.dateHeureDebut > maintenant %}
+                    {% if app.user == sortie.organisateur and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée') and sortie.dateHeureDebut > maintenant or app.user.roles == ['ROLE_ADMIN']  and (sortie.etat.libelle != 'Annulée') and (sortie.etat.libelle != 'Historisé') and (sortie.etat.libelle != 'Passée')  and sortie.dateHeureDebut > maintenant %}
                         <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                     {% endif %}
                 </td>

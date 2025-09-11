@@ -1,6 +1,7 @@
 {% extends 'base' %}
 
 {% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
     <button><a href="{{ path('utilisateur_creer') }}">Ajouter un participant</a></button>
 <table>
     <tr>
@@ -28,4 +29,10 @@
 
 </table>
     <button><a href="{{ path('utilisateur_creer') }}">Ajouter un participant</a></button>
+{% else %}
+    <h1>Accès refusé</h1>
+    <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
+    <a class="bouton" href="{{ path('accueil') }}">Revenir à l'accueil</a>
+
+{% endif %}
 {% endblock %}

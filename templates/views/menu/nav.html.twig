@@ -27,8 +27,7 @@
 <nav>
     <ul>
             {% if app.user %}
-            {% if app.user.role == 'ROLE_USER' %}
-            {% elseif app.user.role == 'ROLE_ADMIN' %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <li><a href="{{ path('listeVilles') }}">Ville</a></li>
                 <li><a href="{{ path('listeCampus') }}">Campus</a></li>
                 <li><a href="{{ path('utilisateurs') }}">Utilisateurs</a></li>

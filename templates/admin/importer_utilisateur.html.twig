@@ -1,7 +1,7 @@
 {% extends 'base' %}
 
 {% block body %}
-
+    {% if is_granted('ROLE_ADMIN') %}
     <div class="container">
         <h1>Import de participants</h1>
 
@@ -11,7 +11,12 @@
         <a class="bouton" href="{{ path('utilisateur_creer') }}">Retour</a>
         {{ form_end(form) }}
     </div>
+{% else %}
+    <h1>Accès refusé</h1>
+    <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
+    <a class="bouton" href="{{ path('accueil') }}">Revenir à l'accueil</a>
 
+{% endif %}
 
 {% endblock %}
 
