@@ -59,7 +59,6 @@ security:
             - { path: ^/connex, roles: PUBLIC_ACCESS }  # page de login (votre route "connex")
             - { path: ^/logout, roles: PUBLIC_ACCESS }
             - { path: ^/utilisateurs, roles: ROLE_ADMIN }
-            - { path: ^/creer, roles: ROLE_ADMIN }
             - { path: ^/modifier, roles: ROLE_ADMIN }
             - { path: ^/supprimer, roles: ROLE_ADMIN }
             - { path: ^/activer, roles: ROLE_ADMIN }
