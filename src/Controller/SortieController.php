@@ -56,17 +56,14 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/creer', name: 'sortie_creer')]
-    public function creer(Request $request,
-                          EntityManagerInterface $entityManager,
-                          EtatRepository $etatRepository,
-        ParticipantRepository $participantRepository): Response{
-
+    public function creer(Request $request, EntityManagerInterface $entityManager,
+                          EtatRepository $etatRepository, ParticipantRepository $participantRepository): Response{
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieDetailsType::class, $sortie);
         $sortieForm->handleRequest($request);
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
             $sortie->setOrganisateur($this->getUser());
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
             $sortie->setCampus($participantRepository->find($this->getUser())->getCampus());
             $sortie = $sortieForm->getData();
@@ -76,26 +73,18 @@ final class SortieController extends AbstractController
             ($publication){
                 $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Ouverte']));
             }
-
             if($sortie->getDateHeureDebut() < new \DateTime()){
                 $this->addFlash('error', 'La date de début doit être dans le futur.');
                 return $this->redirectToRoute('sortie_creer');
             }
-
             $entityManager->persist($sortie);
             $entityManager->flush();
-
-            // Ajouter un message flash pour indiquer que la recherche a été effectuée
             $this->addFlash('success', 'La sortie "'.$sortie->getNom().'" a été enregistrée !');
-
-            // Rediriger vers une autre page si nécessaire
             return $this->redirectToRoute('accueil');
         }
-
         return $this->render('sortie/creer.html.twig',[
             'sortieDetailsForm' => $sortieForm
         ]);
-
     }
 
     #[Route('/detail/{id}', name: 'sortie_detail', requirements: ['id' => '\d+'])]

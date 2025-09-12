@@ -6,7 +6,6 @@ use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Participant;
-use App\Entity\Roles;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
