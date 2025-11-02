@@ -1,0 +1,267 @@
+/* ===============================
+   STYLE GENERAL – BDE ENI
+   Sobre & professionnel
+   =============================== */
+
+:root {
+  --primary-color: #003366; /* Bleu ENI */
+  --secondary-color: #f2f2f2;
+  --accent-color: #0055a5;
+  --text-color: #333;
+  --light-text: #666;
+  --border-color: #ddd;
+  --radius: 8px;
+}
+
+/* ===============================
+   STRUCTURE GENERALE
+   =============================== */
+
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* ===============================
+   HEADER
+   =============================== */
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.logoslogan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoslogan img {
+  height: 60px;
+  margin-right: 1rem;
+  vertical-align: middle;
+  border-radius: 6px;
+}
+
+.logoslogan h1 {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logoslogan p {
+  font-style: italic;
+  color: #cfd8e8;
+  margin: 0;
+}
+
+/* ===============================
+   NAVIGATION
+   =============================== */
+
+nav {
+  background-color: #00254d;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #a6d1ff;
+}
+
+nav img.profil {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+/* ===============================
+   MAIN CONTENT
+   =============================== */
+
+main {
+  padding: 2rem;
+}
+
+.infos {
+  background-color: var(--secondary-color);
+  border-left: 4px solid var(--primary-color);
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: var(--radius);
+}
+
+h1, h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+/* ===============================
+   FORMULAIRE DE RECHERCHE
+   =============================== */
+
+.formulaire {
+  background-color: #f9f9f9;
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 2rem;
+}
+
+.formulaire h2 {
+  margin-top: 0;
+}
+
+.formulaire form div {
+  margin-bottom: 0.8rem;
+}
+
+label {
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 0.3rem;
+}
+
+input[type="search"],
+input[type="date"],
+select {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.4rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+}
+
+input[type="checkbox"] {
+  margin-left: 0.5rem;
+}
+
+button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+}
+
+button:hover {
+  background-color: var(--primary-color);
+}
+
+button a {
+  color: white;
+  text-decoration: none;
+}
+
+/* ===============================
+   TABLEAU DES SORTIES
+   =============================== */
+
+#tableaudesorties {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+#tableaudesorties th,
+#tableaudesorties td {
+  border: 1px solid var(--border-color);
+  padding: 0.8rem;
+  text-align: left;
+}
+
+#tableaudesorties th {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+#tableaudesorties tr:nth-child(even) {
+  background-color: #f5f8fa;
+}
+
+#tableaudesorties tr:hover {
+  background-color: #eaf3ff;
+}
+
+/* ===============================
+   FOOTER
+   =============================== */
+
+footer {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .logoslogan {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logoslogan h1 {
+    justify-content: center;
+  }
+
+  #tableaudesorties th, #tableaudesorties td {
+    font-size: 0.85rem;
+  }
+
+  button.afficheOrdi {
+    width: 100%;
+  }
+}

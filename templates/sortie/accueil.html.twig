@@ -3,7 +3,7 @@
 {%  block body %}
     <div class="infos">
         {%  if app.user %}
-            <p>Salut {{ app.user.prenom}}   {{  app.user.nom  }} </p>
+            <p>Bonjour {{ app.user.prenom}}   {{  app.user.nom  }} </p>
         {%  endif %}
         <p> Date du jour : {{ maintenant | date("d/m/Y") }}</p>
     </div>

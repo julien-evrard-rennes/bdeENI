@@ -8,11 +8,6 @@
         <h1>Profil de {{ participant.prenom }} {{ participant.nom | upper }}</h1>
     {% endif %}
 
-    <div class="infos">
-        {%  if app.user.id == participant.id %}
-            <b>Salut {{ app.user.userIdentifier }} </b>
-        {%  endif %}
-    </div>
     <div class="formulaire">
         <h2>Mes informations personnelles :</h2>
         <p>email : {{ participant.mail }}</p>
@@ -28,6 +23,7 @@
         {% if participant.photo %}
         <img src="{{ asset('photo/profil/' ~ participant.photo) }}" width="100px" alt="photo de profil">
         {% endif %}
+        <p></p>
 
 {%  if app.user == participant %}
         <button><a href="{{ path('profilUpdate') }}">Mettre à jour</a></button>

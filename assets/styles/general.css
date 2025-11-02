@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+h1 {
+	display: flex;
+  flex-flow: nowrap;
+}
+
 h2 {
 	margin: 10px 0;}
 
@@ -15,7 +20,8 @@ header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background-color: #e2e3f7;
+	background-color: #134a80;
+	color:#edeaea;
 	padding: 20px 50px;
 	box-shadow: 0 1px 8px #a8b0d1;
 }
@@ -43,23 +49,24 @@ header img.profil {
 }
 
 header img.profil:hover {
-	border: 2px solid rgb(2, 105, 156);
+	border: 2px solid rgb(232, 208, 72);
 
 }
 
 header a {
 	text-decoration: none;
-	color: #191818;
+	color: #f6f5f5;
 	transition: all 0.3s ease 0s;
 
 }
 
 header a:hover {
-	color: rgb(2, 105, 156);
+	color: rgb(232, 208, 72);
+	font-size:105%;
 }
 
 
-
+/* NAV */
 
 label {
 	font-weight: bold;
